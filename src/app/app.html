@@ -1,6 +1,6 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar class="menu-header">
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -8,17 +8,16 @@
   <ion-content>
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon left ios="ios-{{p.icon}}" md="md-{{p.icon}}"></ion-icon>
+        <ion-icon ios="ios-{{p.icon}}" md="md-{{p.icon}}"></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
   </ion-content>
 
   <ion-footer>
-    <ion-toolbar>
-      <button ion-item secondary (click)="searchPage()">
-        <ion-icon ios="ios-search" md="md-search"></ion-icon> Buscar</button>
-    </ion-toolbar>
+    <button menuClose ion-item (click)="searchPage()">
+      <ion-icon ios="ios-search" md="md-search"></ion-icon> Buscar
+    </button>
   </ion-footer>
 
 </ion-menu>
