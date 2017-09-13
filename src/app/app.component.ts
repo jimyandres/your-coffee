@@ -27,7 +27,7 @@ export class MyApp {
             {title: 'Profile', component: ProfilePage, icon: 'contact'},
             {title: 'Home', component: HomePage, icon: 'cafe'},
             {title: 'About', component: AboutPage, icon: 'information-circle'},
-            {title: 'List', component: ListPage, icon: 'left'}
+            {title: 'List', component: ListPage, icon: 'left-arrow'}
         ];
 
     }

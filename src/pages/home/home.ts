@@ -11,4 +11,11 @@ export class HomePage {
 
   }
 
+  itemTapped(event, item) {
+    // Get the product data to show
+
+    // this.navCtrl.push(ProductPage, {
+    //   item: item
+    // });
+  }
 }

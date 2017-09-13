@@ -3,16 +3,107 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Your Coffee</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="searchPage()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+<ion-content  class="card-background-page">
+  <ion-card>
+    <img src="img/sidebar-1.jpg"/>
+    <div class="card-title">Your Coffee</div>
+    <div class="card-subtitle">Bienvenido</div>
+  </ion-card>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <ion-content padding>
+    <h3>Productos disponibles</h3>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+      <ion-icon [name]="item.icon" item-left></ion-icon>
+      {{item.title}}
+      <div class="item-note" item-right>
+        {{item.note}}
+      </div>
+    </button>
+
+    <ion-row wrap>
+      <!--<ion-col col-6 ion-item collection-repeat="item in items" (click)="itemTapped($event, item)">-->
+        <!--<button no-padding>-->
+          <!--<ion-card>-->
+            <!--<img src="{{ item.photo }}"/>-->
+            <!--<ion-card-content>-->
+              <!--<p>-->
+                <!--<b>{{ item.price}}</b>-->
+              <!--</p>-->
+              <!--<p>{{ item.name }}</p>-->
+            <!--</ion-card-content>-->
+          <!--</ion-card>-->
+        <!--</button>-->
+      <!--</ion-col>-->
+
+      <ion-col col-6 (click)="itemTapped($event, 2)">
+        <button no-padding>
+          <ion-card>
+            <img src="img/sidebar-1.jpg" />
+            <ion-card-content>
+              <p>
+                <b>$18000</b>
+              </p>
+              <p>Producto Uno</p>
+            </ion-card-content>
+          </ion-card>
+        </button>
+      </ion-col>
+
+      <ion-col col-6 (click)="itemTapped($event, 2)">
+        <button no-padding>
+          <ion-card>
+            <img src="img/sidebar-1.jpg" />
+            <ion-card-content>
+              <p>
+                <b>$18000</b>
+              </p>
+              <p>Producto Uno</p>
+            </ion-card-content>
+          </ion-card>
+        </button>
+      </ion-col>
+
+      <ion-col col-6 (click)="itemTapped($event, 2)">
+        <button no-padding>
+          <ion-card>
+            <img src="img/sidebar-1.jpg" />
+            <ion-card-content>
+              <p>
+                <b>$18000</b>
+              </p>
+              <p>Producto Uno</p>
+            </ion-card-content>
+          </ion-card>
+        </button>
+      </ion-col>
+
+      <ion-col col-6 (click)="itemTapped($event, 2)">
+        <button no-padding>
+          <ion-card>
+            <img src="img/sidebar-1.jpg" />
+            <ion-card-content>
+              <p>
+                <b>$18000</b>
+              </p>
+              <p>Producto Uno</p>
+            </ion-card-content>
+          </ion-card>
+        </button>
+      </ion-col>
+
+
+    </ion-row>
+
+  </ion-content>
+
 </ion-content>
