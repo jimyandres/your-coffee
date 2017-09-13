@@ -8,6 +8,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AboutPage } from '../pages/about/about';
 import { SearchPage } from '../pages/search/search';
 import { ListPage } from '../pages/list/list';
+import { ProductPage } from '../pages/product/product';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,6 +20,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ProfilePage,
     AboutPage,
     SearchPage,
+    ProductPage,
     ListPage
   ],
   imports: [
@@ -32,6 +34,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ProfilePage,
     AboutPage,
     SearchPage,
+    ProductPage,
     ListPage
   ],
   providers: [
