@@ -14,7 +14,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class YourCoffeeWebServiceProvider {
 
-  yourCoffeeUrl : string = "api/";
+  yourCoffeeUrl : string = "/api";
 
   constructor(public http: Http) {
     console.log('Hello YourCoffeeWebServiceProvider Provider');
@@ -41,7 +41,7 @@ export class YourCoffeeWebServiceProvider {
 	//     		resolve(this.data);
 	//     	});
  //    });
- 	return  this.http.get(this.yourCoffeeUrl + 'home')
+ 	return  this.http.get(this.yourCoffeeUrl + "/api/home")
             .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json());
             // .catch(error => console.log(error));
@@ -49,6 +49,12 @@ export class YourCoffeeWebServiceProvider {
  	// return this.http.get(this.yourCoffeeUrl + 'home')
   //                .map(res => res.json())
   //                .catch(this.handleError);
+    }
+
+    product(id) {
+      return this.http.get(this.yourCoffeeUrl + "/api/product/" + id)
+            .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json());
     }
 
     // handleError(error) {
