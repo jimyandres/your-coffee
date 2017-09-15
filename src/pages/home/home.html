@@ -48,7 +48,7 @@
       <ion-col col-6 *ngFor="let product of products.data" (click)="itemTapped($event, product)">
         <button no-padding>
           <ion-card>
-            <img style="width:10em;height:10em;" src="http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}"/>
+            <img style="width:10em;height:10em;" src="{{apiURL}}/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}"/>
             <ion-card-content>
               <p>
                 <b>${{product.precioEmpaque}}</b>

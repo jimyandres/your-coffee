@@ -12,21 +12,24 @@ import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-serv
 })
 export class HomePage {
 
-    public attributes: any;
-    public varieties: any;
-    public locations: any;
-    public price_range: Array<{min: Number, max: Number}> = [];
-    public products: Array<any> = [];
+    attributes: any;
+    varieties: any;
+    locations: any;
+    price_range: any;
+    products: any = [];
+    apiURL: string;
 
     constructor(public navCtrl: NavController, private yourCoffeeService: YourCoffeeWebServiceProvider) {
         this.loadProducts();
+        this.apiURL = this.yourCoffeeService.yourCoffeeUrl;
+        // console.log(this.apiURL);
     }
 
     itemTapped(event, item) {
         // Get the product data to show
-        this.navCtrl.push(ProductPage, {
-            item: item
-        });
+        console.log(item);
+        item = this.showProduct(item.idPublicacion);
+        // console.log(item);
     }
 
     searchPage() {
@@ -40,7 +43,17 @@ export class HomePage {
             this.locations = data.ubicaciones;
             this.price_range = [{min: Number(data.min_price), max: Number(data.max_price)}];
             this.products = data.products;
+
+            // console.log(this.products);
         });
-        console.log(this.products);
+    }
+
+    showProduct(id) {
+      this.yourCoffeeService.product(id).subscribe((data) => {
+              this.navCtrl.push(ProductPage, {
+                  item: data,
+                  apiURL: this.apiURL
+              });
+          });
     }
 }
