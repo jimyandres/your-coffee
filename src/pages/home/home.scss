@@ -10,6 +10,12 @@ page-home {
         text-align: left;
       }
     }
+    .col-product {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+    }
 
     .card-title {
       position: absolute;
@@ -27,6 +33,5 @@ page-home {
       width: 100%;
       color: #fff;
     }
-
   }
 }
