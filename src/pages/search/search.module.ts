@@ -9,5 +9,8 @@ import { SearchPage } from './search';
   imports: [
     IonicPageModule.forChild(SearchPage),
   ],
+  entryComponents: [
+    SearchPage,
+  ]
 })
 export class SearchPageModule {}
