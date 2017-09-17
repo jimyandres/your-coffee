@@ -27,7 +27,7 @@ export class HomePage {
 
     itemTapped(event, item) {
         // Get the product data to show
-        console.log(item);
+        // console.log(item);
         item = this.showProduct(item.idPublicacion);
         // console.log(item);
     }
@@ -49,11 +49,11 @@ export class HomePage {
     }
 
     showProduct(id) {
-      this.yourCoffeeService.product(id).subscribe((data) => {
-              this.navCtrl.push(ProductPage, {
-                  item: data,
-                  apiURL: this.apiURL
-              });
-          });
+        this.yourCoffeeService.product(id).subscribe((data) => {
+            this.navCtrl.push(ProductPage, {
+                item: data,
+                apiURL: this.apiURL
+            });
+        });
     }
 }
