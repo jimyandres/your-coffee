@@ -20,3 +20,17 @@ ion-toolbar.menu-header{
   background: color($colors, dark2);
   height: 120px;
 }
+
+ul {
+  padding: 0px;
+
+  &.rating li {
+    padding: 0px 0px !important;
+    background: none;
+    color: #ffb400;
+
+    ion-icon {
+      font-size: 30px;
+    }
+  }
+}
