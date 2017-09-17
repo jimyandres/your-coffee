@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response, URLSearchParams, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
@@ -22,6 +22,7 @@ export class YourCoffeeWebServiceProvider {
 // : Observable<YourCoffeeWebServiceProvider[]>
   load() {
   	let headers = new Headers({'Accept': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
  //  	if (this.data) {
 	// 	// already loaded data
 	// 	return Promise.resolve(this.data);
@@ -41,7 +42,7 @@ export class YourCoffeeWebServiceProvider {
 	//     		resolve(this.data);
 	//     	});
  //    });
- 	return  this.http.get(this.yourCoffeeUrl + "/api/home")
+ 	return  this.http.get(this.yourCoffeeUrl + "/api/home", options)
             .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json());
             // .catch(error => console.log(error));
@@ -52,7 +53,22 @@ export class YourCoffeeWebServiceProvider {
     }
 
     product(id) {
-      return this.http.get(this.yourCoffeeUrl + "/api/product/" + id)
+      let headers = new Headers({'Accept': 'application/json'});
+      let options = new RequestOptions({ headers: headers });
+
+      return this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
+            .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json());
+    }
+
+    search(name) {
+      let headers = new Headers({'Accept': 'application/json'});
+      let myParams = new URLSearchParams();
+      myParams.append('keyword', name);
+
+      let options = new RequestOptions({ headers: headers, params: myParams });
+
+      return this.http.get(this.yourCoffeeUrl + "/api/search", options)
             .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json());
     }
