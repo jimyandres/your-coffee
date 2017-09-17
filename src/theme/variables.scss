@@ -50,7 +50,15 @@ $toolbar-background: color($colors, primary);
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
+$searchbar-ios-background-color: rgba(255, 255, 255, .2);
+$searchbar-ios-toolbar-input-background: rgba(255, 255, 255, .08);
+$searchbar-ios-input-search-icon-color: rgba(255, 255, 255, .5);
+$searchbar-ios-input-placeholder-color: rgba(255, 255, 255, .5);
+$searchbar-ios-input-background-color: #fff;
+$searchbar-ios-input-clear-icon-color: rgba(255, 255, 255, .5);
+$searchbar-ios-input-text-color: #fff;
+$searchbar-ios-input-placeholder-color: rgba(255, 255, 255, .5);
+$searchbar-ios-border-color: rgba(255, 255, 255, .05);
 
 
 // App Material Design Variables
