@@ -12,14 +12,16 @@
 
 <ion-content class="outer-content">
 
-  <ion-list>
-    <ion-item>
-      <ion-slides pager loop autoplay="4000" zoom autoHeight="true">
-        <ion-slide *ngFor="let slide of product.fotos">
-          <img data-src="{{apiURL}}/storage/get/{{slide.path}}/{{slide.nombreArchivo}}">
-        </ion-slide>
-      </ion-slides>
-    </ion-item>
+  <ion-list class="outer-content" no-border>
+    <ion-item-group>
+      <ion-item>
+        <ion-slides pager loop autoplay="4000" zoom autoHeight="true">
+          <ion-slide *ngFor="let slide of product.fotos">
+            <img data-src="{{apiURL}}/storage/get/{{slide.path}}/{{slide.nombreArchivo}}">
+          </ion-slide>
+        </ion-slides>
+      </ion-item>
+    </ion-item-group> 
   </ion-list>
 
   <ion-grid>
@@ -58,9 +60,9 @@
   <!--Definir el máximo-->
     <ion-row>
       <ion-col col-4>
-        <ion-list>
+        <ion-list no-lines>
           <ion-item>
-            <ion-label floating>Cantidad</ion-label>
+            <ion-label color="primary" floating>Cantidad</ion-label>
             <ion-input type="number" min="1" max="{{product.cantidad}}" step="1" value="1"></ion-input>
           </ion-item>
         </ion-list>
@@ -82,10 +84,10 @@
   <!-- Opción 1, con cards -->
   <ion-card style="margin-bottom: 5px;">
     <ion-card-content>
-      <ion-list>
+      <ion-list no-lines>
 
         <button ion-item (click)="seeDescription()">
-          <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
           <ion-avatar item-start>
             <img src="{{apiURL}}/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}">
           </ion-avatar>
@@ -99,10 +101,10 @@
 
   <ion-card style="margin-bottom: 5px;">
     <ion-card-content>
-      <ion-list>
+      <ion-list no-lines>
       
         <button ion-item (click)="seeDetails()">
-          <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
           <ion-icon name="cafe" item-start color="primary"></ion-icon>
           <h2>Detalles</h2>
           <p><strong>Variedad Café:</strong> {{product.variedad_cafe.tipo}}<br>...</p>
@@ -114,13 +116,13 @@
 
   <ion-card style="margin-bottom: 5px;">
     <ion-card-content>
-      <ion-list>
+      <ion-list no-lines>
       
         <button ion-item (click)="seeQuestions()">
           <ion-icon name="text" item-start color="primary"></ion-icon>
           <h2>Preguntas <ion-badge item-end>{{questions.total}}</ion-badge></h2>
           <p *ngIf="questions.total">{{questions.data["0"].consulta}}</p>
-          <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
         </button>
 
       </ion-list>
@@ -129,10 +131,10 @@
 
   <ion-card>
     <ion-card-content>
-      <ion-list>
+      <ion-list no-lines>
         <button ion-item (click)="seeReviews()">
           <ion-icon name="star" item-start color="primary"></ion-icon>
-          <ion-icon name="ios-arrow-forward-outline" item-end></ion-icon>
+          <ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
           <h2>Reseñas</h2>
           <p *ngIf="reviews.total != 1; else elseBlock">{{reviews.total}} opiniones</p>
           <ng-template #elseBlock><p>{{reviews.total}} opinión</p></ng-template>
