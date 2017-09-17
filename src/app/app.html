@@ -15,9 +15,12 @@
   </ion-content>
 
   <ion-footer>
-    <button menuClose ion-item (click)="searchPage()">
-      <ion-icon ios="ios-search" md="md-search"></ion-icon> Buscar
-    </button>
+    <ion-list no-lines>
+      <button menuClose ion-item (click)="searchPage()">
+        <ion-icon ios="ios-search" md="md-search" item-start></ion-icon>
+        Buscar
+      </button>
+    </ion-list> 
   </ion-footer>
 
 </ion-menu>
