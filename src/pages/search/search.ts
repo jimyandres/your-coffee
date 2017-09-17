@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
+import {ProductPage} from '../product/product';
+
 /**
  * Generated class for the SearchPage page.
  *
@@ -17,9 +19,12 @@ import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-serv
 })
 export class SearchPage {
 
-  items: Array<any>;
+  products: Array<any> = [];
+  providers: Array<any> = [];
+  apiURL: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private yourCoffeeService: YourCoffeeWebServiceProvider) {
+  	this.apiURL = this.yourCoffeeService.yourCoffeeUrl;
   }
 
   ionViewDidLoad() {
@@ -29,13 +34,29 @@ export class SearchPage {
   getItems(event: any) {
   	let query = event.target.value;
 
-  	this.yourCoffeeService.search(query).subscribe((data) => {
-  		this.items = data.data;
-  	});	
+ 	if (query && query.trim() != '') {
+ 		this.yourCoffeeService.search(query).subscribe((data) => {
+  			this.products = data.data.filter(checkClass, 'product');
+  			this.providers = data.data.filter(checkClass, 'provider');
+  		});
+ 	}
   }
 
   cancelSearch(event: any) {
   	this.navCtrl.pop();
   }
 
+  seeProduct(product) {
+  	this.yourCoffeeService.product(product.idPublicacion).subscribe((data) => {
+      	this.navCtrl.push(ProductPage, {
+      		item: data,
+      		apiURL: this.apiURL
+      	});
+  	});
+  }
+
+}
+	
+function checkClass(item) {
+	return item.class === this;
 }
