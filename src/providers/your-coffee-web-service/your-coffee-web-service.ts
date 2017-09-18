@@ -14,52 +14,79 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class YourCoffeeWebServiceProvider {
 
-  yourCoffeeUrl : string = "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com";
+  yourCoffeeUrl : string = "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com"; // for building app
+
+  // yourCoffeeUrl : string = "/api"; // for browser testing
+
+  data: any;
+  productInfo: any;
+  searchData: any;
+
 
   constructor(public http: Http) {
     console.log('Hello YourCoffeeWebServiceProvider Provider');
   }
 // : Observable<YourCoffeeWebServiceProvider[]>
-  load() {
-  	let headers = new Headers({'Accept': 'application/json'});
-    let options = new RequestOptions({ headers: headers });
- //  	if (this.data) {
-	// 	// already loaded data
-	// 	return Promise.resolve(this.data);
-	// }
+  // load() {
+  // 	let headers = new Headers({'Accept': 'application/json'});
+  //   let options = new RequestOptions({ headers: headers });
 
-	// don't have the data yet
-	// return new Promise(resolve => {
-	// 	// We're using Angular HTTP provider to request the data,
-	//     // then on the response, it'll map the JSON data to a parsed JS object.
-	//     // Next, we process the data and resolve the promise with the new data.
-	//     this.http.get(this.yourCoffeeUrl + 'home')
-	//     	.map(res => res.json())
-	//     	.subscribe(data => {
-	//     		// we've got back the raw data, now generate the core schedule data
-	//     		// and save the data for later reference
-	//     		this.data = data;
-	//     		resolve(this.data);
-	//     	});
- //    });
- 	return  this.http.get(this.yourCoffeeUrl + "/api/home", options)
-            .do((res : Response ) => console.log(res.json()))
-            .map((res : Response ) => res.json())//.catch(this.handleError);;
-            .catch(error => console.log(error));
+  //  	return  this.http.get(this.yourCoffeeUrl + "/api/home", options)
+  //           // .do((res : Response ) => console.log(res.json()))
+  //           .map((res : Response ) => res.json())//.catch(this.handleError);;
+  //           .catch(error => {
+  //             console.log(error);
+  //             return Observable.throw(error.json().error || 'Server error');
+  //           });
+  // }  
 
- 	// return this.http.get(this.yourCoffeeUrl + 'home')
-  //                .map(res => res.json())
-  //                .catch(this.handleError);
+    load() {
+      let headers = new Headers({'Accept': 'application/json'});
+      let options = new RequestOptions({ headers: headers });
+
+      if (this.data) {
+        return Promise.resolve(this.data);
+      }
+      // Dont have the data yet
+      return new Promise(resolve => {
+        this.http.get(this.yourCoffeeUrl + "/api/home", options)
+          .map(res => res.json())
+          .subscribe(data => {
+            this.data = data;
+            resolve(this.data);
+          });
+      });
     }
+
+    // product(id) {
+    //   let headers = new Headers({'Accept': 'application/json'});
+    //   let options = new RequestOptions({ headers: headers });
+
+    //   return this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
+    //         .do((res : Response ) => console.log(res.json()))
+    //         .map((res : Response ) => res.json())
+    //         .catch(error => {
+    //           console.log(error);
+    //           return Observable.throw(error.json().error || 'Server error');
+    //         });
+    // }
 
     product(id) {
       let headers = new Headers({'Accept': 'application/json'});
       let options = new RequestOptions({ headers: headers });
 
-      return this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
-            .do((res : Response ) => console.log(res.json()))
-            .map((res : Response ) => res.json())
-            .catch(error => console.log(error));;
+      if (this.productInfo) {
+        return Promise.resolve(this.productInfo);
+      }
+
+      return new Promise(resolve => {
+        this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
+          .map((res : Response ) => res.json())
+          .subscribe(data => {
+            this.productInfo = data;
+            resolve(this.productInfo);
+          });
+      });
     }
 
     search(name) {
@@ -72,8 +99,32 @@ export class YourCoffeeWebServiceProvider {
       return this.http.get(this.yourCoffeeUrl + "/api/search", options)
             .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json())
-            .catch(error => console.log(error));;
+            .catch(error => {
+              console.log(error);
+              return Observable.throw(error.json().error || 'Server error');
+            });
     }
+
+    // search(name) {
+    //   let headers = new Headers({'Accept': 'application/json'});
+    //   let myParams = new URLSearchParams();
+    //   myParams.append('keyword', name);
+
+    //   let options = new RequestOptions({ headers: headers, params: myParams });
+
+    //   if (this.searchData) {
+    //     return Promise.resolve(this.searchData);
+    //   }
+
+    //   return new Promise(resolve => {
+    //     this.http.get(this.yourCoffeeUrl + "/api/search", options)
+    //       .map((res : Response ) => res.json())
+    //       .subscribe(data => {
+    //         this.searchData = data;
+    //         resolve(this.searchData);
+    //       });
+    //   });
+    // }
 
     // handleError(error) {
     //   console.error(error);

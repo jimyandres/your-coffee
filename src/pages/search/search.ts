@@ -34,12 +34,12 @@ export class SearchPage {
   getItems(event: any) {
   	let query = event.target.value;
 
- 	if (query && query.trim() != '') {
- 		this.yourCoffeeService.search(query).subscribe((data) => {
-  			this.products = data.data.filter(checkClass, 'product');
-  			this.providers = data.data.filter(checkClass, 'provider');
-  		});
- 	}
+   	if (query && query.trim() != '') {
+   		this.yourCoffeeService.search(query).subscribe((searchData) => {
+    			this.products = searchData.data.filter(checkClass, 'product');
+    			this.providers = searchData.data.filter(checkClass, 'provider');
+    		});
+   	}
   }
 
   cancelSearch(event: any) {
@@ -47,9 +47,9 @@ export class SearchPage {
   }
 
   seeProduct(product) {
-  	this.yourCoffeeService.product(product.idPublicacion).subscribe((data) => {
+  	this.yourCoffeeService.product(product.idPublicacion).then((productInfo) => {
       	this.navCtrl.push(ProductPage, {
-      		item: data,
+      		item: productInfo,
       		apiURL: this.apiURL
       	});
   	});
