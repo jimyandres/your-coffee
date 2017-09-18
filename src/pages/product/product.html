@@ -12,11 +12,11 @@
 
 <ion-content class="outer-content">
 
-  <ion-list class="outer-content" no-border>
+  <ion-list no-border>
     <ion-item-group>
       <ion-item>
         <ion-slides pager loop autoplay="4000" zoom autoHeight="true">
-          <ion-slide *ngFor="let slide of product.fotos">
+          <ion-slide style="background-color: transparent;" *ngFor="let slide of product.fotos">
             <img data-src="{{apiURL}}/storage/get/{{slide.path}}/{{slide.nombreArchivo}}">
           </ion-slide>
         </ion-slides>
@@ -39,7 +39,7 @@
 
     <!--Score-->
     <ion-row>
-      <rating [(ngModel)]="rate" 
+      <rating [(ngModel)]="product.calificacion" 
         readOnly="true"
         max="5"
         emptyStarIconName="star-outline"
@@ -48,7 +48,6 @@
         nullable="false"
         (ngModelChange)="onModelChange($event)"> <!--use it when you need to do something when user clicks on a star. in case you only need to change ngModel property, this property can be ommited.-->
       </rating>
-      <h6>(Score){{product.calificacion}}</h6>
     </ion-row>
 
     <!--Price-->
@@ -61,7 +60,7 @@
     <ion-row>
       <ion-col col-4>
         <ion-list no-lines>
-          <ion-item>
+          <ion-item style="background-color: transparent;">
             <ion-label color="primary" floating>Cantidad</ion-label>
             <ion-input type="number" min="1" max="{{product.cantidad}}" step="1" value="1"></ion-input>
           </ion-item>
@@ -133,9 +132,21 @@
     <ion-card-content>
       <ion-list no-lines>
         <button ion-item (click)="seeReviews()">
-          <ion-icon name="star" item-start color="primary"></ion-icon>
+          <!-- <ion-icon name="star" item-start color="primary"></ion-icon> -->
+          <h1 item-start>
+            {{product.calificacion}}
+          </h1>
           <ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
           <h2>Reseñas</h2>
+          <rating [(ngModel)]="product.calificacion" 
+            readOnly="true"
+            max="5"
+            emptyStarIconName="star-outline"
+            halfStarIconName="star-half"
+            starIconName="star"
+            nullable="false"
+            (ngModelChange)="onModelChange($event)"> <!--use it when you need to do something when user clicks on a star. in case you only need to change ngModel property, this property can be ommited.-->
+          </rating>
           <p *ngIf="reviews.total != 1; else elseBlock">{{reviews.total}} opiniones</p>
           <ng-template #elseBlock><p>{{reviews.total}} opinión</p></ng-template>
         </button>
