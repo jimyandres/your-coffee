@@ -1,8 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides, ModalController } from 'ionic-angular';
 import { SearchPage } from "../search/search";
 import { ProductDescriptionPage } from "../product-description/product-description";
 import { ProductDetailsPage } from "../product-details/product-details";
+import { ModalPurchasePage } from "../modal-purchase/modal-purchase";
 
 /**
  * Generated class for the ProductPage page.
@@ -28,7 +29,8 @@ export class ProductPage {
 
   @ViewChild(Slides) slides: Slides;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              public modalCtrl: ModalController) {
     this.apiURL = navParams.get('apiURL');
     this.selectedItem = navParams.get('item');
     this.loadData();
@@ -74,5 +76,10 @@ export class ProductPage {
 
   seeReviews() {
     console.log(this.reviews);
+  }
+
+  makePurchase() {
+    let modal = this.modalCtrl.create(ModalPurchasePage, { 'admin': this.admin });
+    modal.present();
   }
 }

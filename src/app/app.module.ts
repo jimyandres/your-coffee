@@ -11,6 +11,7 @@ import { ListPage } from '../pages/list/list';
 import { ProductPage } from '../pages/product/product';
 import { ProductDescriptionPage } from "../pages/product-description/product-description";
 import { ProductDetailsPage } from "../pages/product-details/product-details";
+import { ModalPurchasePage } from "../pages/modal-purchase/modal-purchase";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -30,6 +31,7 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     ProductPage,
     ProductDescriptionPage,
     ProductDetailsPage,
+    ModalPurchasePage,
     ListPage
   ],
   imports: [
@@ -48,6 +50,7 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     ProductPage,
     ProductDescriptionPage,
     ProductDetailsPage,
+    ModalPurchasePage,
     ListPage
   ],
   providers: [
