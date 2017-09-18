@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Detalles</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="searchPage()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <h2>Variedad de Café</h2>
+      <p>{{variety}}</p>
+    </ion-item>
+    <ion-item *ngFor="let detail of details">
+      <h2>{{parse(detail.nombreAtributo)}}</h2>
+      <p>{{symbols(detail.pivot.valorAtributo)}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

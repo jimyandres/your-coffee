@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
-import {SearchPage} from "../search/search";
+import { SearchPage } from "../search/search";
+import { ProductDescriptionPage } from "../product-description/product-description";
+import { ProductDetailsPage } from "../product-details/product-details";
 
 /**
  * Generated class for the ProductPage page.
@@ -52,11 +54,16 @@ export class ProductPage {
   }
 
   seeDescription() {
-    console.log(this.product.descripcion);
+    this.navCtrl.push(ProductDescriptionPage, {
+      description: this.product.descripcion,
+    });
   }
 
   seeDetails() {
-    console.log(this.product.atributos);
+    this.navCtrl.push(ProductDetailsPage, {
+      details: this.product.atributos,
+      variety: this.product.variedad_cafe.tipo,
+    });
   }
 
   seeQuestions() {

@@ -9,6 +9,8 @@ import { AboutPage } from '../pages/about/about';
 import { SearchPage } from '../pages/search/search';
 import { ListPage } from '../pages/list/list';
 import { ProductPage } from '../pages/product/product';
+import { ProductDescriptionPage } from "../pages/product-description/product-description";
+import { ProductDetailsPage } from "../pages/product-details/product-details";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -26,6 +28,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     AboutPage,
     SearchPage,
     ProductPage,
+    ProductDescriptionPage,
+    ProductDetailsPage,
     ListPage
   ],
   imports: [
@@ -42,6 +46,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     AboutPage,
     SearchPage,
     ProductPage,
+    ProductDescriptionPage,
+    ProductDetailsPage,
     ListPage
   ],
   providers: [
