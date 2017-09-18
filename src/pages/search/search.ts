@@ -47,7 +47,7 @@ export class SearchPage {
   }
 
   seeProduct(product) {
-  	this.yourCoffeeService.product(product.idPublicacion).then((productInfo) => {
+  	this.yourCoffeeService.product(product.idPublicacion).subscribe((productInfo) => {
       	this.navCtrl.push(ProductPage, {
       		item: productInfo,
       		apiURL: this.apiURL

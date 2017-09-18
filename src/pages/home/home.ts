@@ -37,7 +37,7 @@ export class HomePage {
     }
 
     loadProducts() {
-        this.yourCoffeeService.load().then((data) => {
+        this.yourCoffeeService.load().subscribe((data) => {
             this.attributes = data.attributes;
             this.varieties = data.variedad_cafe;
             this.locations = data.ubicaciones;
@@ -49,7 +49,7 @@ export class HomePage {
     }
 
     showProduct(id) {
-        this.yourCoffeeService.product(id).then((productInfo) => {
+        this.yourCoffeeService.product(id).subscribe((productInfo) => {
             this.navCtrl.push(ProductPage, {
                 item: productInfo,
                 apiURL: this.apiURL
