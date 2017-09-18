@@ -2,7 +2,7 @@
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Your Coffee</name>
     <description>Una tienda virtual para la compra de cafes especiales.</description>
-    <author email="yourcoffee@gmail.com" href="http://yourcoffee.us-west-2.elasticbeanstalk.com/">Your Coffee Team</author>
+    <author email="rootproyectocafe@gmail.com" href="http://yourcoffee.us-west-2.elasticbeanstalk.com/">Your Coffee Team</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
