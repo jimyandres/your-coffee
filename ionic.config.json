@@ -4,5 +4,11 @@
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com"
+    }
+  ]
 }
