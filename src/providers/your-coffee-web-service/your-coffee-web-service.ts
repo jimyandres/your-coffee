@@ -14,9 +14,9 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class YourCoffeeWebServiceProvider {
 
-  yourCoffeeUrl : string = "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com"; // for building app
+  // yourCoffeeUrl : string = "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com"; // for building app
 
-  // yourCoffeeUrl : string = "/api"; // for browser testing
+  yourCoffeeUrl : string = "/api"; // for browser testing
 
   data: any;
   productInfo: any;
