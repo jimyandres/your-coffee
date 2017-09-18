@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Compra</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row justify-content-center class>
+      <ion-icon name="ios-contact" style="font-size: 100px;"></ion-icon>
+    </ion-row>
+    <ion-row justify-content-center>
+      <p>Administrador encargado</p>
+    </ion-row>
+    <ion-row>
+      <ion-item>
+        Nombre
+        <ion-note item-end>
+          {{admin.nombres + ' ' + admin.apellidos}}
+        </ion-note>
+      </ion-item>
+      <ion-item>
+        Correo Electrónico
+        <ion-note item-end>
+          {{admin.correoElectronico}}
+        </ion-note>
+      </ion-item>
+    </ion-row>
+  </ion-grid>
+
+  <ion-footer padding>
+    <h1>Nota</h1>
+    <ion-item>
+      <h2 item-end>
+        Para completar la compra, contacte al administrador encargado.
+        Proximamente podrás realizar las compras directamente en nuestra aplicación.
+      </h2>
+    </ion-item>
+  </ion-footer>
+</ion-content>
