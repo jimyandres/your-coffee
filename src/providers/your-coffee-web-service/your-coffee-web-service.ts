@@ -14,7 +14,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class YourCoffeeWebServiceProvider {
 
-  yourCoffeeUrl : string = "/api";
+  yourCoffeeUrl : string = "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com";
 
   constructor(public http: Http) {
     console.log('Hello YourCoffeeWebServiceProvider Provider');
@@ -44,8 +44,8 @@ export class YourCoffeeWebServiceProvider {
  //    });
  	return  this.http.get(this.yourCoffeeUrl + "/api/home", options)
             .do((res : Response ) => console.log(res.json()))
-            .map((res : Response ) => res.json());
-            // .catch(error => console.log(error));
+            .map((res : Response ) => res.json())//.catch(this.handleError);;
+            .catch(error => console.log(error));
 
  	// return this.http.get(this.yourCoffeeUrl + 'home')
   //                .map(res => res.json())
@@ -58,7 +58,8 @@ export class YourCoffeeWebServiceProvider {
 
       return this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
             .do((res : Response ) => console.log(res.json()))
-            .map((res : Response ) => res.json());
+            .map((res : Response ) => res.json())
+            .catch(error => console.log(error));;
     }
 
     search(name) {
@@ -70,11 +71,12 @@ export class YourCoffeeWebServiceProvider {
 
       return this.http.get(this.yourCoffeeUrl + "/api/search", options)
             .do((res : Response ) => console.log(res.json()))
-            .map((res : Response ) => res.json());
+            .map((res : Response ) => res.json())
+            .catch(error => console.log(error));;
     }
 
     // handleError(error) {
     //   console.error(error);
-    //   return Observable.throw(error.json().error || 'Server error');
+    //   // return Observable.throw(error.json().error || 'Server error');
     // }
   }
