@@ -23,6 +23,7 @@ export class ProductPage {
   questions: any;
   reviews: any;
   methods: any;
+  admin: any;
   apiURL: string = '';
 
   @ViewChild(Slides) slides: Slides;
@@ -51,6 +52,7 @@ export class ProductPage {
     this.questions = this.selectedItem.questions;
     this.reviews = this.selectedItem.reviews;
     this.methods = this.selectedItem.metodos_pago;
+    this.admin = this.product.admin;
   }
 
   seeDescription() {
