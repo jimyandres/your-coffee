@@ -11,18 +11,22 @@
 
 
 <ion-content padding>
-  <ion-list>
-    <ion-item-group>
-    
-      <ion-item>
-        <h2>Variedad de Café</h2>
-        <p>{{variety}}</p>
-      </ion-item>
-      <ion-item *ngFor="let detail of details">
-        <h2>{{parse(detail.nombreAtributo)}}</h2>
-        <p [innerHTML]="detail.pivot.valorAtributo"></p>
-      </ion-item>
+  <ion-grid fixed>
+
+    <ion-list>
+      <ion-item-group>
       
-    </ion-item-group>
-  </ion-list>
+        <ion-item>
+          <h2>Variedad de Café</h2>
+          <p>{{variety}}</p>
+        </ion-item>
+        <ion-item *ngFor="let detail of details">
+          <h2>{{parse(detail.nombreAtributo)}}</h2>
+          <p [innerHTML]="detail.pivot.valorAtributo"></p>
+        </ion-item>
+
+      </ion-item-group>
+    </ion-list>
+
+  </ion-grid>
 </ion-content>
