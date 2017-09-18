@@ -12,25 +12,29 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content  class="card-background-page">
-  <ion-card>
-    <img src="assets/img/sidebar-1.jpg"/>
-    <div class="card-title">Your Coffee</div>
-    <div class="card-subtitle">Bienvenido</div>
-  </ion-card>
+<ion-content class="card-background-page">
+  <ion-grid fixed>
+    <ion-card class="card-backgruound">
+      <img src="assets/img/sidebar-1.jpg"/>
+      <div class="card-title">Your Coffee</div>
+      <div class="card-subtitle">Bienvenido</div>
+    </ion-card>
 
-  <ion-content padding>
-    <h3>Productos disponibles</h3>
+  <ion-row justify-content-center>
+    <ion-col align-self-center>
+      <h3 text-center>Productos disponibles</h3>
+    </ion-col>
+  </ion-row>
 
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-left></ion-icon>
-        {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
-
-    <ion-row wrap>
+  <!-- <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+    <ion-icon [name]="item.icon" item-left></ion-icon>
+      {{item.title}}
+    <div class="item-note" item-right>
+      {{item.note}}
+    </div>
+  </button> -->
+  
+    <ion-row justify-content-between wrap>
 
       <ion-col class="col-product" col-6 *ngFor="let product of products.data" (click)="itemTapped($event, product)">
           <ion-card>
@@ -105,7 +109,6 @@
       <!--</ion-col>-->
 
     </ion-row>
-
-  </ion-content>
+  </ion-grid>
 
 </ion-content>
