@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
 import {SearchPage} from "../search/search";
+import { ProductDescriptionPage } from "../product-description/product-description";
 
 /**
  * Generated class for the ProductPage page.
@@ -52,7 +53,9 @@ export class ProductPage {
   }
 
   seeDescription() {
-    console.log(this.product.descripcion);
+    this.navCtrl.push(ProductDescriptionPage, {
+      description: this.product.descripcion,
+    });
   }
 
   seeDetails() {
