@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SearchPage } from "../search/search";
 
 /**
  * Generated class for the ProductDescriptionPage page.
@@ -25,4 +26,7 @@ export class ProductDescriptionPage {
     console.log('ionViewDidLoad DescriptionProductPage');
   }
 
+  searchPage() {
+    this.navCtrl.push(SearchPage);
+  }
 }
