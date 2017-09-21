@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Reseñas</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="searchPage()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="outer-content">
+
+	<ion-grid fixed>
+
+	<ion-card *ngFor="let review of reviews.data" style="margin-bottom: 5px;">
+
+		<ion-card-content style="padding-bottom: 0;">
+			<ion-list no-lines>
+				<ion-item text-wrap>
+					<ion-icon name="contact" item-start color="primary"></ion-icon>
+					<h2>{{review.compra.comprador.nombres}} {{review.compra.comprador.apellidos}}</h2>
+					<rating [(ngModel)]="review.calificacion" 
+					  readOnly="true"
+					  max="5"
+					  emptyStarIconName="star-outline"
+					  halfStarIconName="star-half"
+					  starIconName="star"
+					  nullable="false"
+					  (ngModelChange)="onModelChange($event)"> <!--use it when you need to do something when user clicks on a star. in case you only need to change ngModel property, this property can be ommited.-->
+					</rating>
+					<p *ngIf="review.comentario && review.comentario!=''">{{review.comentario}}</p>
+					<ion-note>
+						{{review.created_at | amLocale:'es' | amTimeAgo}}
+					</ion-note>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-row *ngIf="!reviews.total">
+		<ion-col align-self-center text-center>
+			<p>Nadie ha calificado este producto. ¡Anímate a comprar y dinos que piensas!</p>
+		</ion-col>
+	</ion-row>
+
+	</ion-grid>
+
+</ion-content>
