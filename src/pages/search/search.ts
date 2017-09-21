@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
 import {ProductPage} from '../product/product';
+
+import { Searchbar } from 'ionic-angular';
 
 /**
  * Generated class for the SearchPage page.
@@ -19,6 +21,8 @@ import {ProductPage} from '../product/product';
 })
 export class SearchPage {
 
+  @ViewChild('searchInput') searchInput: Searchbar ;
+
   products: Array<any> = [];
   providers: Array<any> = [];
   apiURL: string = '';
@@ -29,7 +33,12 @@ export class SearchPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
+    setTimeout(() => {
+      this.searchInput.setFocus();
+    },150);
   }
+
+  ngOnInit() { setTimeout(() => { this.searchInput.setFocus(); }, 150); }
 
   getItems(event: any) {
   	let query = event.target.value;

@@ -12,6 +12,8 @@ import { ProductPage } from '../pages/product/product';
 import { ProductDescriptionPage } from "../pages/product-description/product-description";
 import { ProductDetailsPage } from "../pages/product-details/product-details";
 import { ModalPurchasePage } from "../pages/modal-purchase/modal-purchase";
+import { ProductQuestionsPage } from "../pages/product-questions/product-questions";
+import { ProductReviewsPage } from "../pages/product-reviews/product-reviews";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,6 +22,7 @@ import { HttpModule } from '@angular/http';
 
 // Import ionic2-rating module
 import { Ionic2RatingModule } from 'ionic2-rating';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -32,13 +35,16 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     ProductDescriptionPage,
     ProductDetailsPage,
     ModalPurchasePage,
+    ProductQuestionsPage,
+    ProductReviewsPage,
     ListPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    Ionic2RatingModule
+    Ionic2RatingModule,
+    MomentModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -51,6 +57,8 @@ import { Ionic2RatingModule } from 'ionic2-rating';
     ProductDescriptionPage,
     ProductDetailsPage,
     ModalPurchasePage,
+    ProductQuestionsPage,
+    ProductReviewsPage,
     ListPage
   ],
   providers: [

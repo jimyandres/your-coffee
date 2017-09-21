@@ -4,6 +4,8 @@ import { SearchPage } from "../search/search";
 import { ProductDescriptionPage } from "../product-description/product-description";
 import { ProductDetailsPage } from "../product-details/product-details";
 import { ModalPurchasePage } from "../modal-purchase/modal-purchase";
+import { ProductQuestionsPage } from "../product-questions/product-questions";
+import { ProductReviewsPage } from "../product-reviews/product-reviews";
 
 /**
  * Generated class for the ProductPage page.
@@ -71,11 +73,15 @@ export class ProductPage {
   }
 
   seeQuestions() {
-    console.log(this.questions);
+    this.navCtrl.push(ProductQuestionsPage, {
+      questions: this.questions,
+    });
   }
 
   seeReviews() {
-    console.log(this.reviews);
+    this.navCtrl.push(ProductReviewsPage, {
+      reviews: this.reviews,
+    });
   }
 
   makePurchase() {
