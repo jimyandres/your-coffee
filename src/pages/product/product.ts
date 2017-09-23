@@ -6,6 +6,7 @@ import { ProductDetailsPage } from "../product-details/product-details";
 import { ModalPurchasePage } from "../modal-purchase/modal-purchase";
 import { ProductQuestionsPage } from "../product-questions/product-questions";
 import { ProductReviewsPage } from "../product-reviews/product-reviews";
+import { ProviderPage } from "../provider/provider";
 
 /**
  * Generated class for the ProductPage page.
@@ -48,7 +49,9 @@ export class ProductPage {
 
   // Redirect to the Provider Profile
   seeProvider() {
-    console.log(this.product.proveedor);
+    this.navCtrl.push(ProviderPage, {
+      providerId: this.product.proveedor.id,
+    });
   }
 
   loadData() {
