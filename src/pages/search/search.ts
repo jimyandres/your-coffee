@@ -2,9 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
-import {ProductPage} from '../product/product';
+import { ProductPage } from '../product/product';
 
 import { Searchbar } from 'ionic-angular';
+import { ProviderPage } from "../provider/provider";
 
 /**
  * Generated class for the SearchPage page.
@@ -63,6 +64,15 @@ export class SearchPage {
       	});
   	});
   }
+
+    seeProvider(provider) {
+        this.yourCoffeeService.provider(provider.id).subscribe((providerInfo) => {
+            this.navCtrl.push(ProviderPage, {
+                item: providerInfo,
+                apiURL: this.apiURL
+            });
+        });
+    }
 
 }
 	

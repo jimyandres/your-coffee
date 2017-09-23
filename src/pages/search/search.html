@@ -38,7 +38,7 @@
 
 			<ng-template ngFor let-provider [ngForOf]="providers" let-i="index">
 
-				<button ion-item>
+				<button ion-item (click)="seeProvider(provider)">
 					<ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
 					<ion-thumbnail item-start>
 						<img src="{{apiURL}}/storage/get/{{provider.fotos['0'].path}}/{{provider.fotos['0'].nombreArchivo}}">

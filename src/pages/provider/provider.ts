@@ -15,11 +15,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProviderPage {
 
+  provider: any = [];
+  item: any;
+  apiURL: string = '';
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.apiURL = navParams.get('apiURL');
+    this.item = navParams.get('item');
+    this.loadData()
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProviderPage');
   }
 
+
+  loadData() {
+    this.provider = this.item.provider;
+  }
 }

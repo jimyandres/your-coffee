@@ -7,6 +7,7 @@ import { ModalPurchasePage } from "../modal-purchase/modal-purchase";
 import { ProductQuestionsPage } from "../product-questions/product-questions";
 import { ProductReviewsPage } from "../product-reviews/product-reviews";
 import { ProviderPage } from "../provider/provider";
+import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
 /**
  * Generated class for the ProductPage page.
@@ -19,6 +20,7 @@ import { ProviderPage } from "../provider/provider";
 @Component({
   selector: 'page-product',
   templateUrl: 'product.html',
+  providers: [YourCoffeeWebServiceProvider],
 })
 export class ProductPage {
 
@@ -33,7 +35,7 @@ export class ProductPage {
   @ViewChild(Slides) slides: Slides;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public modalCtrl: ModalController) {
+              public modalCtrl: ModalController, private yourCoffeeService: YourCoffeeWebServiceProvider) {
     this.apiURL = navParams.get('apiURL');
     this.selectedItem = navParams.get('item');
     this.loadData();
@@ -48,9 +50,12 @@ export class ProductPage {
   }
 
   // Redirect to the Provider Profile
-  seeProvider() {
-    this.navCtrl.push(ProviderPage, {
-      providerId: this.product.proveedor.id,
+  seeProvider(id) {
+    this.yourCoffeeService.provider(id).subscribe((providerInfo) => {
+      this.navCtrl.push(ProviderPage, {
+        item: providerInfo,
+        apiURL: this.apiURL
+      });
     });
   }
 

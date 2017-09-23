@@ -71,6 +71,19 @@ export class YourCoffeeWebServiceProvider {
           });
   }
 
+    provider(id) {
+        let headers = new Headers({'Accept': 'application/json'});
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.yourCoffeeUrl + "/api/provider/" + id, options)
+            .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json())
+            .catch(error => {
+                console.log(error);
+                return Observable.throw(error.json().error || 'Server error');
+            });
+    }
+
     // product(id) {
     //   let headers = new Headers({'Accept': 'application/json'});
     //   let options = new RequestOptions({ headers: headers });
