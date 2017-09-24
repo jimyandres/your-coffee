@@ -42,9 +42,19 @@ page-about {
     position: relative;
     height: 30vw;
     width: 30vw;
-    border: 2px solid #fff;
+    border: 1px solid #6a4120;
     border-radius: 50%;
-    //display: inline-block;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .logo2 {
+    top: -27vw;
+    margin-bottom: -27vw;
+    position: relative;
+    height: 25vw;
+    width: 25vw;
     margin-left: auto;
     margin-right: auto;
   }
