@@ -20,7 +20,7 @@
         <ion-item>
           <ion-slides pager loop autoplay="4000" zoom centeredSlides>
             <ion-slide style="background-color: transparent;" *ngFor="let slide of provider.fotos">
-              <img data-src="{{apiURL}}/storage/get/{{slide.path}}/{{slide.nombreArchivo}}">
+              <img [src]="slide.url">
             </ion-slide>
           </ion-slides>
         </ion-item>
@@ -33,7 +33,7 @@
       <h2>{{provider.nombres + " " + provider.apellidos}}</h2>
     </ion-row>
     <ion-row justify-content-center>
-      <p>{{provider.nombreFinca}}</p>
+      <p>Finca: {{provider.nombreFinca}}</p>
     </ion-row>
 
     <!-- Segment for Provider details -->
@@ -106,7 +106,7 @@
             <ion-row justify-content-between wrap>
               <ion-col class="col-product" col-6 *ngFor="let product of provider.productos" (click)="itemTapped($event, product)">
                 <ion-card>
-                  <img src="{{apiURL}}/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}"/>
+                  <img [src]="product.fotos['0'].url"/>
                   <ion-card-content>
                     <p>
                       <b>${{product.precioEmpaque}}</b>

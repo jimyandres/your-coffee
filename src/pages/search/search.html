@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-toolbar no-border>
-    <ion-searchbar #searchInput animated showCancelButton autofocus placeholder="¿Qué estas buscando?" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)"></ion-searchbar>
+    <ion-searchbar animated showCancelButton autofocus placeholder="¿Qué estas buscando?" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -20,7 +20,7 @@
 				<button ion-item (click)="seeProduct(product)">
 					<ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
 					<ion-thumbnail item-start>
-						<img src="{{apiURL}}/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}">
+						<img [src]="product.fotos['0'].url">
 					</ion-thumbnail>
 
 					<h2>{{product.nombre}}</h2>
@@ -41,7 +41,7 @@
 				<button ion-item (click)="seeProvider(provider)">
 					<ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
 					<ion-thumbnail item-start>
-						<img src="{{apiURL}}/storage/get/{{provider.fotos['0'].path}}/{{provider.fotos['0'].nombreArchivo}}">
+						<img [src]="provider.fotos['0'].url">
 					</ion-thumbnail>
 
 					<h2>{{provider.nombres}} {{provider.apellidos}}</h2>

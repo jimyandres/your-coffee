@@ -22,8 +22,6 @@ import { ProviderPage } from "../provider/provider";
 })
 export class SearchPage {
 
-  @ViewChild('searchInput') searchInput: Searchbar ;
-
   products: Array<any> = [];
   providers: Array<any> = [];
   apiURL: string = '';
@@ -34,12 +32,7 @@ export class SearchPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
-    setTimeout(() => {
-      this.searchInput.setFocus();
-    },150);
   }
-
-  ngOnInit() { setTimeout(() => { this.searchInput.setFocus(); }, 150); }
 
   getItems(event: any) {
   	let query = event.target.value;

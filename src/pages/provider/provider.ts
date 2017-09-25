@@ -33,7 +33,7 @@ export class ProviderPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProviderPage', this.provider);
+    console.log('ionViewDidLoad ProviderPage');
   }
 
   loadData() {

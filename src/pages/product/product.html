@@ -19,7 +19,7 @@
           <ion-item>
             <ion-slides pager loop autoplay="4000" zoom centeredSlides>
               <ion-slide style="background-color: transparent;" *ngFor="let slide of product.fotos">
-                <img data-src="{{apiURL}}/storage/get/{{slide.path}}/{{slide.nombreArchivo}}">
+                <img [src]="slide.url">
               </ion-slide>
             </ion-slides>
           </ion-item>
@@ -90,7 +90,7 @@
           <button ion-item (click)="seeDescription()">
             <ion-icon md="ios-arrow-forward-outline" item-end></ion-icon>
             <ion-avatar item-start>
-              <img src="{{apiURL}}/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}">
+              <img [src]="product.fotos['0'].url">
             </ion-avatar>
             <h2>Descripción</h2>
             <p>{{product.descripcion}}</p>

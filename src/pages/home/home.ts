@@ -18,6 +18,7 @@ export class HomePage {
     price_range: any;
     products: any = [];
     apiURL: string;
+    photoUrl: string = '';
 
     constructor(public navCtrl: NavController, private yourCoffeeService: YourCoffeeWebServiceProvider) {
         this.loadProducts();
@@ -43,8 +44,6 @@ export class HomePage {
             this.locations = data.ubicaciones;
             this.price_range = [{min: Number(data.min_price), max: Number(data.max_price)}];
             this.products = data.products;
-
-            // console.log(this.products);
         });
     }
 

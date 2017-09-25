@@ -14,7 +14,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class YourCoffeeWebServiceProvider {
 
-  // yourCoffeeUrl : string = "http://devenv.cje8szvmx3.us-west-2.elasticbeanstalk.com"; // for building app
+  // yourCoffeeUrl : string = "http://yourcoffee.us-west-2.elasticbeanstalk.com"; // for building app
 
   yourCoffeeUrl : string = "/api"; // for browser testing
 
@@ -63,7 +63,7 @@ export class YourCoffeeWebServiceProvider {
     let options = new RequestOptions({ headers: headers });
 
     return this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
-          .do((res : Response ) => console.log(res.json()))
+          // .do((res : Response ) => console.log(res.json()))
           .map((res : Response ) => res.json())
           .catch(error => {
             console.log(error);
@@ -76,7 +76,7 @@ export class YourCoffeeWebServiceProvider {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.get(this.yourCoffeeUrl + "/api/provider/" + id, options)
-            .do((res : Response ) => console.log(res.json()))
+            // .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json())
             .catch(error => {
                 console.log(error);
@@ -110,7 +110,7 @@ export class YourCoffeeWebServiceProvider {
     let options = new RequestOptions({ headers: headers, params: myParams });
 
     return this.http.get(this.yourCoffeeUrl + "/api/search", options)
-          .do((res : Response ) => console.log(res.json()))
+          // .do((res : Response ) => console.log(res.json()))
           .map((res : Response ) => res.json())
           .catch(error => {
             console.log(error);

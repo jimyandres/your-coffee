@@ -39,7 +39,7 @@
 
       <ion-col class="col-product" col-6 *ngFor="let product of products.data" (click)="itemTapped($event, product)">
         <ion-card>
-          <img src="{{apiURL}}/storage/get/{{product.fotos['0'].path}}/{{product.fotos['0'].nombreArchivo}}"/>
+          <img [src]="product.fotos['0'].url"/>
           <ion-card-content>
             <p>
               <b>${{product.precioEmpaque}}</b>
