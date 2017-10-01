@@ -15,6 +15,8 @@ import { ModalPurchasePage } from "../pages/modal-purchase/modal-purchase";
 import { ProductQuestionsPage } from "../pages/product-questions/product-questions";
 import { ProductReviewsPage } from "../pages/product-reviews/product-reviews";
 import { ProviderPage } from "../pages/provider/provider";
+import { LoginPage } from "../pages/login/login";
+import { SignUpPage } from "../pages/sign-up/sign-up"
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,6 +41,8 @@ import { MomentModule } from 'angular2-moment';
     ProductQuestionsPage,
     ProductReviewsPage,
     ProviderPage,
+    LoginPage,
+    SignUpPage,
     ListPage
   ],
   imports: [
@@ -62,6 +66,8 @@ import { MomentModule } from 'angular2-moment';
     ProductQuestionsPage,
     ProductReviewsPage,
     ProviderPage,
+    LoginPage,
+    SignUpPage,
     ListPage
   ],
   providers: [

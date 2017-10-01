@@ -1,0 +1,46 @@
+page-login {
+  .logo {
+    // top: -15vw;
+    // margin-bottom: -15vw;
+    position: relative;
+    height: 30vw;
+    width: 30vw;
+    border: 1px solid #6a4120;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  .logo2 {
+    top: -27vw;
+    margin-bottom: -17vw;
+    position: relative;
+    height: 25vw;
+    width: 25vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .separate {
+    margin-top: 3vh !important;
+  }
+
+  h2{
+    display: flex;
+  }
+  h2.heading:before, h2.heading:after{
+    content: '';
+    flex-grow: 1;
+    margin: 0px 4px;
+    background-size: 100% 2px;
+    background-position: 0% 50%;
+    background-repeat: repeat-x;
+  }
+  h2.heading:before, .heading-ie span.before{
+    background-image: linear-gradient(to right, transparent, #000000);
+  }
+  h2.heading:after, .heading-ie span.after{
+    background-image: linear-gradient(to left, transparent, #000000);
+  }
+}

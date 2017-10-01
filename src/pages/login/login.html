@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Iniciar Sessión</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid no-padding>
+
+    <div class="logo"></div>
+    <img src="assets/img/logo.svg" class="logo2"/>
+
+    <ion-row>
+      <ion-col>
+        <h1 text-center>Your Coffee</h1>
+      </ion-col>
+    </ion-row>
+
+    <ion-row margin-left>
+      <ion-col>
+        <h4>Iniciar Sesión</h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-item>
+        <ion-label floating>Correo electrónico</ion-label>
+        <ion-input type="email" [(ngModel)]="user.email"></ion-input>
+      </ion-item>
+    </ion-row>
+
+    <ion-row>
+      <ion-item>
+        <ion-label floating>Contraseña</ion-label>
+        <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+      </ion-item>
+    </ion-row>
+
+    <button ion-button class="separate" (click)="login()">Iniciar sesión</button>
+
+    <ion-row>
+      <ion-col>
+        <h2 class="heading separate">O</h2>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col text-center class="separate">
+        ¿No tienes una cuenta?
+        <a (click)="signUp()">Regístrate</a>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>
