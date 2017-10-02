@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
@@ -27,6 +28,10 @@ import { HttpModule } from '@angular/http';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { MomentModule } from 'angular2-moment';
 
+// Import ionic simple wizard
+import { IonSimpleWizard } from '../pages/ion-simple-wizard/ion-simple-wizard.component';
+import { IonSimpleWizardStep } from '../pages/ion-simple-wizard/ion-simple-wizard.step.component';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -43,6 +48,8 @@ import { MomentModule } from 'angular2-moment';
     ProviderPage,
     LoginPage,
     SignUpPage,
+    IonSimpleWizard,
+    IonSimpleWizardStep,
     ListPage
   ],
   imports: [
@@ -50,6 +57,7 @@ import { MomentModule } from 'angular2-moment';
     IonicModule.forRoot(MyApp),
     HttpModule,
     Ionic2RatingModule,
+    BrowserAnimationsModule,
     MomentModule
   ],
   bootstrap: [IonicApp],

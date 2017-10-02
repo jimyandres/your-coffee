@@ -9,5 +9,282 @@
 
 
 <ion-content padding>
+  <ion-simple-wizard [(step)]="step" [showSteps]="true" (finish)="signUp()" [finishIcon]="'done-all'" [(stepCondition)]="stepCondition">
+    <ion-wizard-step>
+      <ion-grid>
 
+        <ion-row margin-top>
+          <ion-col>
+            <h4 text-center>Información Personal</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-finger-print" md="md-finger-print" item-start></ion-icon>
+            <ion-label floating>Número de documento</ion-label>
+            <ion-input type="text" required [(ngModel)]="user.id"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-contact" md="md-contact" item-start></ion-icon>
+            <ion-label floating>Nombres</ion-label>
+            <ion-input type="text" [(ngModel)]="user.nombres"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-contact" md="md-contact" item-start></ion-icon>
+            <ion-label floating>Apellidos</ion-label>
+            <ion-input type="text" [(ngModel)]="user.apellidos"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-mail" md="md-mail" item-start></ion-icon>
+            <ion-label floating>Tu e-mail</ion-label>
+            <ion-input type="email" [(ngModel)]="user.email"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-lock" md="md-lock" item-start></ion-icon>
+            <ion-label floating>Contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Confirmar contraseña</ion-label>
+            <ion-input type="password" [(ngModel)]="user.password_confirm"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-call" md="md-call" item-start></ion-icon>
+            <ion-label floating>Teléfono</ion-label>
+            <ion-input type="number" [(ngModel)]="user.telefono"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row class="final_item">
+          <ion-item>
+            <ion-icon ios="ios-school" md="md-school" item-start></ion-icon>
+            <ion-label floating>Nivel de Estudios</ion-label>
+            <ion-select [(ngModel)]="user.idNivelEstudios" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+
+      </ion-grid>
+    </ion-wizard-step>
+    <ion-wizard-step>
+
+      <ion-grid>
+
+        <ion-row margin-top>
+          <ion-col>
+            <h4 text-center>Ubicación</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-compass" md="md-compass" item-start></ion-icon>
+            <ion-label floating>Pais</ion-label>
+            <ion-select [(ngModel)]="user.pais" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-map" md="md-map" item-start></ion-icon>
+            <ion-label floating>Departamento</ion-label>
+            <ion-select [(ngModel)]="user.departamento" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-navigate" md="md-navigate" item-start></ion-icon>
+            <ion-label floating>Ciudad</ion-label>
+            <ion-select [(ngModel)]="user.ciudad" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-home" md="md-home" item-start></ion-icon>
+            <ion-label floating>Dirección</ion-label>
+            <ion-input type="text" [(ngModel)]="user.direccion"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-information-circle" md="md-information-circle" item-start></ion-icon>
+            <ion-label floating>Dirección auxiliar</ion-label>
+            <ion-input type="text" [(ngModel)]="user.direccionAuxiliar"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row class="final_item">
+          <ion-item>
+            <ion-icon name="mail" item-start></ion-icon>
+            <ion-label floating>Código postal</ion-label>
+            <ion-input type="number" [(ngModel)]="user.codigoPostal"></ion-input>
+          </ion-item>
+        </ion-row>
+
+      </ion-grid>
+    </ion-wizard-step>
+    <ion-wizard-step>
+
+      <ion-grid>
+
+        <ion-row margin-top>
+          <ion-col>
+            <h4 text-center>Preferencias del café</h4>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-refresh-circle" md="md-refresh-circle" item-start></ion-icon>
+            <ion-label floating>Frecuencia de compra</ion-label>
+            <ion-select [(ngModel)]="user.idFrecuenciaCompraCafe" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Tipo de Beneficio</ion-label>
+            <ion-select [(ngModel)]="user.tipoBeneficio" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Fragancia</ion-label>
+            <ion-select [(ngModel)]="user.fragancia" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Acidez</ion-label>
+            <ion-select [(ngModel)]="user.acidez" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Dulce</ion-label>
+            <ion-select [(ngModel)]="user.dulce" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Tipo de empaque</ion-label>
+            <ion-select [(ngModel)]="user.tipoEmpaque" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Trilla</ion-label>
+            <ion-select [(ngModel)]="user.trilla" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Tostion</ion-label>
+            <ion-select [(ngModel)]="user.tostion" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Molienda</ion-label>
+            <ion-select [(ngModel)]="user.molienda" submitText="OK" cancelText="Cancelar">
+              <ion-option value="dos">DOS</ion-option>
+              <ion-option value="lunix">Linux</ion-option>
+              <ion-option value="mac7">Mac OS 7</ion-option>
+              <ion-option value="mac8">Mac OS 8</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Sabor</ion-label>
+            <ion-input type="text" [(ngModel)]="user.sabor"></ion-input>
+          </ion-item>
+        </ion-row>
+        <ion-row class="final_item">
+          <ion-item>
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>Sabor residual</ion-label>
+            <ion-input type="text" [(ngModel)]="user.saborResidual"></ion-input>
+          </ion-item>
+        </ion-row>
+
+      </ion-grid>
+
+    </ion-wizard-step>
+  </ion-simple-wizard>
 </ion-content>

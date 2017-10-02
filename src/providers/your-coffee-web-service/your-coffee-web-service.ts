@@ -38,7 +38,7 @@ export class YourCoffeeWebServiceProvider {
               console.log(error);
               return Observable.throw(error.json().error || 'Server error');
             });
-  }  
+  }
 
     // load() {
     //   let headers = new Headers({'Accept': 'application/json'});
