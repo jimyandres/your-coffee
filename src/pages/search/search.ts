@@ -1,10 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
 import { ProductPage } from '../product/product';
-
-import { Searchbar } from 'ionic-angular';
 import { ProviderPage } from "../provider/provider";
 
 /**
@@ -38,10 +36,15 @@ export class SearchPage {
   	let query = event.target.value;
 
    	if (query && query.trim() != '') {
-   		this.yourCoffeeService.search(query).subscribe((searchData) => {
+   		this.yourCoffeeService.search(query).subscribe(
+        (searchData) => {
     			this.products = searchData.data.filter(checkClass, 'product');
     			this.providers = searchData.data.filter(checkClass, 'provider');
-    		});
+    		},
+        (err) => {
+          console.log(err);
+        }
+      );
    	}
   }
 
@@ -50,22 +53,32 @@ export class SearchPage {
   }
 
   seeProduct(product) {
-  	this.yourCoffeeService.product(product.idPublicacion).subscribe((productInfo) => {
+  	this.yourCoffeeService.product(product.idPublicacion).subscribe(
+      (productInfo) => {
       	this.navCtrl.push(ProductPage, {
       		item: productInfo,
       		apiURL: this.apiURL
       	});
-  	});
+  	  },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
-    seeProvider(provider) {
-        this.yourCoffeeService.provider(provider.id).subscribe((providerInfo) => {
-            this.navCtrl.push(ProviderPage, {
-                item: providerInfo,
-                apiURL: this.apiURL
-            });
+  seeProvider(provider) {
+    this.yourCoffeeService.provider(provider.id).subscribe(
+      (providerInfo) => {
+        this.navCtrl.push(ProviderPage, {
+            item: providerInfo,
+            apiURL: this.apiURL
         });
-    }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
 
 }
 	

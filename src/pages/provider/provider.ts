@@ -47,12 +47,17 @@ export class ProviderPage {
   }
 
   showProduct(id) {
-    this.yourCoffeeService.product(id).subscribe((productInfo) => {
-      this.navCtrl.push(ProductPage, {
-        item: productInfo,
-        apiURL: this.apiURL
-      });
-    });
+    this.yourCoffeeService.product(id).subscribe(
+      (productInfo) => {
+        this.navCtrl.push(ProductPage, {
+          item: productInfo,
+          apiURL: this.apiURL
+        });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   searchPage() {

@@ -51,12 +51,17 @@ export class ProductPage {
 
   // Redirect to the Provider Profile
   seeProvider(id) {
-    this.yourCoffeeService.provider(id).subscribe((providerInfo) => {
-      this.navCtrl.push(ProviderPage, {
-        item: providerInfo,
-        apiURL: this.apiURL
-      });
-    });
+    this.yourCoffeeService.provider(id).subscribe(
+      (providerInfo) => {
+        this.navCtrl.push(ProviderPage, {
+          item: providerInfo,
+          apiURL: this.apiURL
+        });
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   loadData() {
