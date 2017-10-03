@@ -38,21 +38,31 @@ export class HomePage {
     }
 
     loadProducts() {
-        this.yourCoffeeService.load().subscribe((data) => {
-            this.attributes = data.attributes;
-            this.varieties = data.variedad_cafe;
-            this.locations = data.ubicaciones;
-            this.price_range = [{min: Number(data.min_price), max: Number(data.max_price)}];
-            this.products = data.products;
-        });
+        this.yourCoffeeService.load().subscribe(
+            (data) => {
+                this.attributes = data.attributes;
+                this.varieties = data.variedad_cafe;
+                this.locations = data.ubicaciones;
+                this.price_range = [{min: Number(data.min_price), max: Number(data.max_price)}];
+                this.products = data.products;
+            },
+            (err) => {
+              console.log(err);
+            }
+        );
     }
 
     showProduct(id) {
-        this.yourCoffeeService.product(id).subscribe((productInfo) => {
-            this.navCtrl.push(ProductPage, {
-                item: productInfo,
-                apiURL: this.apiURL
-            });
-        });
+        this.yourCoffeeService.product(id).subscribe(
+            (productInfo) => {
+                this.navCtrl.push(ProductPage, {
+                    item: productInfo,
+                    apiURL: this.apiURL
+                });
+            },
+            (err) => {
+              console.log(err);
+            }
+        );
     }
 }
