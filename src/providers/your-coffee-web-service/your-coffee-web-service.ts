@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, URLSearchParams, RequestOptions } from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 /*
   Generated class for the YourCoffeeWebServiceProvider provider.
@@ -26,18 +27,28 @@ export class YourCoffeeWebServiceProvider {
   constructor(public http: Http) {
     console.log('Hello YourCoffeeWebServiceProvider Provider');
   }
+
+  private handleError (error: Response | any) {
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(error.json());
+  }
 // : Observable<YourCoffeeWebServiceProvider[]>
   load() {
   	let headers = new Headers({'Accept': 'application/json'});
     let options = new RequestOptions({ headers: headers });
 
-   	return  this.http.get(this.yourCoffeeUrl + "/api/home", options)
+   	return  this.http.get(this.yourCoffeeUrl + "/home", options)
             // .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json())//.catch(this.handleError);;
-            .catch(error => {
-              console.log(error);
-              return Observable.throw(error.json().error || 'Server error');
-            });
+            .catch(this.handleError);
   }
 
     // load() {
@@ -62,27 +73,21 @@ export class YourCoffeeWebServiceProvider {
     let headers = new Headers({'Accept': 'application/json'});
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.get(this.yourCoffeeUrl + "/api/product/" + id, options)
+    return this.http.get(this.yourCoffeeUrl + "/product/" + id, options)
           // .do((res : Response ) => console.log(res.json()))
           .map((res : Response ) => res.json())
-          .catch(error => {
-            console.log(error);
-            return Observable.throw(error.json().error || 'Server error');
-          });
+          .catch(this.handleError);
   }
 
-    provider(id) {
-        let headers = new Headers({'Accept': 'application/json'});
-        let options = new RequestOptions({ headers: headers });
+  provider(id) {
+      let headers = new Headers({'Accept': 'application/json'});
+      let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.yourCoffeeUrl + "/api/provider/" + id, options)
-            // .do((res : Response ) => console.log(res.json()))
-            .map((res : Response ) => res.json())
-            .catch(error => {
-                console.log(error);
-                return Observable.throw(error.json().error || 'Server error');
-            });
-    }
+      return this.http.get(this.yourCoffeeUrl + "/provider/" + id, options)
+          // .do((res : Response ) => console.log(res.json()))
+          .map((res : Response ) => res.json())
+          .catch(this.handleError);
+  }
 
     // product(id) {
     //   let headers = new Headers({'Accept': 'application/json'});
@@ -109,13 +114,10 @@ export class YourCoffeeWebServiceProvider {
 
     let options = new RequestOptions({ headers: headers, params: myParams });
 
-    return this.http.get(this.yourCoffeeUrl + "/api/search", options)
+    return this.http.get(this.yourCoffeeUrl + "/search", options)
           // .do((res : Response ) => console.log(res.json()))
           .map((res : Response ) => res.json())
-          .catch(error => {
-            console.log(error);
-            return Observable.throw(error.json().error || 'Server error');
-          });
+          .catch(this.handleError);
   }
 
     // search(name) {
@@ -143,4 +145,18 @@ export class YourCoffeeWebServiceProvider {
     //   console.error(error);
     //   // return Observable.throw(error.json().error || 'Server error');
     // }
+
+  login(credentials) {
+    let headers = new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'});
+    // let body = new URLSearchParams();
+    // body.append('email', credentials.email);
+    // body.append('password', credentials.password);
+    // let body = credentials;
+    let options = new RequestOptions({ headers: headers });
+
+    return  this.http.post(this.yourCoffeeUrl + "/login", credentials, options)
+            // .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json())//.catch(this.handleError);;
+            .catch(this.handleError);
   }
+}

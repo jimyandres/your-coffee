@@ -44,3 +44,11 @@ page-login {
     background-image: linear-gradient(to left, transparent, #000000);
   }
 }
+
+  ion-toast.success .toast-wrapper {
+    background: green;
+  }
+
+  ion-toast.failed .toast-wrapper {
+    background: rgb(209, 71, 71);
+  }

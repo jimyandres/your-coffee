@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SignUpPage } from '../sign-up/sign-up';
+
+import { UserProvider } from '../../providers/user/user';
 
 /**
  * Generated class for the LoginPage page.
@@ -16,26 +18,44 @@ import { SignUpPage } from '../sign-up/sign-up';
 })
 export class LoginPage {
 
-  user = {} as User;
+  credentials : { email: string, password: string } = { email:'', password: ''};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public user: UserProvider, public toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
   }
 
-  login(user: User) {
-
+  login() {
+    this.user.login(this.credentials).subscribe(
+      (res) => {
+        if (res.status == 'success') {
+          this.presentToast('Credenciales válidas', 'success');
+        } else {
+          this.presentToast(res.message, res.status);
+        }
+      },
+      (err) => {
+        // console.log(err);
+        this.presentToast(err.message, err.status);
+      }
+    );
   }
 
   signUp() {
     this.navCtrl.push(SignUpPage);
   }
 
-}
+  presentToast(msg?: string, status?: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      cssClass: status,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+      duration: 4000
+    });
+    toast.present();
+  }
 
-export interface User {
-  email: string;
-  password: string;
 }
