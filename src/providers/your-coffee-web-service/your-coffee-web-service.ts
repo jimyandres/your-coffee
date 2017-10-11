@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+
 import { Http, Headers, Response, URLSearchParams, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -22,13 +24,31 @@ export class YourCoffeeWebServiceProvider {
   data: any;
   productInfo: any;
   searchData: any;
+  private _userToken: any = null;
+  private _user: any = null;
 
 
-  constructor(public http: Http) {
+  constructor(public http: Http, public storage: Storage) {
     console.log('Hello YourCoffeeWebServiceProvider Provider');
+    storage.get("user-token").then((token) => {
+      this._userToken = token;
+      console.log(this._userToken);
+    },
+    (err) => {
+      this._userToken = null;
+      console.log(this._userToken);
+    });
+    storage.get('user-detail').then((user) => {
+      this._user = user;
+      console.log(this._user);
+    },
+    (err) => {
+      this._user = null;
+      console.log(this._user);
+    });
   }
 
-  private handleError (error: Response | any) {
+  handleError (error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -148,15 +168,77 @@ export class YourCoffeeWebServiceProvider {
 
   login(credentials) {
     let headers = new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'});
+
+    // if (this._userToken) {
+    //   return Promise.resolve({'status': 'success', 'token': this._userToken,'message': ''});
+    // }
     // let body = new URLSearchParams();
     // body.append('email', credentials.email);
     // body.append('password', credentials.password);
     // let body = credentials;
     let options = new RequestOptions({ headers: headers });
 
-    return  this.http.post(this.yourCoffeeUrl + "/login", credentials, options)
+    // return new Promise ((resolve, reject) => {
+    //   this.http.post(this.yourCoffeeUrl + "/login", credentials, options)
+    //     // .do((res : Response ) => console.log(res.json()))
+    //     .map((res : Response ) => res.json())
+    //     .subscribe(data => {
+    //       this._userToken = data.token;
+    //       this.storage.set('user-token', this._userToken)
+    //       resolve(data);
+    //     },
+    //     (err) => {
+    //       reject(err);
+    //     });
+    //     // .catch(this.handleError);
+    // });
+    return this.http.post(this.yourCoffeeUrl + "/login", credentials, options)
             // .do((res : Response ) => console.log(res.json()))
             .map((res : Response ) => res.json())//.catch(this.handleError);;
             .catch(this.handleError);
+  }
+
+  getToken() {
+    return this._userToken;
+  }
+
+  setToken(token) {
+    this._userToken = token;
+    this.storage.set('user-token', this._userToken);
+
+    this._user = null;
+    this.storage.set('user-detail', null);
+  }
+
+  user(token) {
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    });
+
+    if (this._user) {
+      return Promise.resolve({'status': 'success', 'data': this._user});
+    }
+
+    let options = new RequestOptions({ headers: headers });
+
+    return new Promise ((resolve, reject) => {
+      this.http.get(this.yourCoffeeUrl + '/user', options)
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          this._user = data.data;
+          this.storage.set('user-detail', this._user)
+          resolve(data);
+        },
+        (err) => {
+          reject(err);
+        });
+        // .catch(this.handleError);
+    })
+
+    // return this.http.get(this.yourCoffeeUrl + '/user', options)
+    //        .map((res: Response) => res.json())
+    //        .catch(this.handleError);
   }
 }
