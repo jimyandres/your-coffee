@@ -24,28 +24,28 @@ export class YourCoffeeWebServiceProvider {
   data: any;
   productInfo: any;
   searchData: any;
-  private _userToken: any = null;
-  private _user: any = null;
+  _userToken: any = null;
+  _user: any = null;
 
 
   constructor(public http: Http, public storage: Storage) {
     console.log('Hello YourCoffeeWebServiceProvider Provider');
     storage.get("user-token").then((token) => {
       this._userToken = token;
-      console.log(this._userToken);
+      // console.log(this._userToken);
     },
     (err) => {
       this._userToken = null;
-      console.log(this._userToken);
+      // console.log(this._userToken);
     });
-    storage.get('user-detail').then((user) => {
-      this._user = user;
-      console.log(this._user);
-    },
-    (err) => {
-      this._user = null;
-      console.log(this._user);
-    });
+    // storage.get('user-detail').then((user) => {
+    //   this._user = user;
+    //   console.log(this._user);
+    // },
+    // (err) => {
+    //   this._user = null;
+    //   console.log(this._user);
+    // });
   }
 
   handleError (error: Response | any) {
@@ -211,34 +211,133 @@ export class YourCoffeeWebServiceProvider {
   }
 
   user(token) {
-    let headers = new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token,
-    });
 
     if (this._user) {
       return Promise.resolve({'status': 'success', 'data': this._user});
     }
 
-    let options = new RequestOptions({ headers: headers });
+    // if(!token) {
+    //   console.log(token, this._userToken);
+    //   if(this._userToken == null) {
+    //     this.storage.get('user-token').then((data) => {
+    //       console.log(data);
+    //       if (!data && data == null) {
+    //         console.log('hola');
+    //         return Promise.resolve({'status': 'error', 'data': null, 'message': 'Unauthenticated'});
+    //       } else {
+    //         token = data;
 
-    return new Promise ((resolve, reject) => {
-      this.http.get(this.yourCoffeeUrl + '/user', options)
-        .map((res: Response) => res.json())
-        .subscribe(data => {
-          this._user = data.data;
-          this.storage.set('user-detail', this._user)
-          resolve(data);
-        },
-        (err) => {
-          reject(err);
-        });
-        // .catch(this.handleError);
-    })
+    //         // let headers = new Headers({
+    //         //   'Accept': 'application/json',
+    //         //   'Content-Type': 'application/json',
+    //         //   'Authorization': 'Bearer ' + token,
+    //         // });
+
+    //         // let options = new RequestOptions({ headers: headers });
+
+    //         // return new Promise ((resolve, reject) => {
+    //         //   this.http.get(this.yourCoffeeUrl + '/user', options)
+    //         //     .map((res: Response) => res.json())
+    //         //     .subscribe(data => {
+    //         //       this._user = data.data;
+    //         //       this.storage.set('user-detail', this._user)
+    //         //       resolve(data);
+    //         //     },
+    //         //     (err) => {
+    //         //       reject(err);
+    //         //     });
+    //         //     // .catch(this.handleError);
+    //         // });
+
+    //       }
+    //     });
+    //   } else {
+    //     token = this._userToken;
+
+    //     // let headers = new Headers({
+    //     //   'Accept': 'application/json',
+    //     //   'Content-Type': 'application/json',
+    //     //   'Authorization': 'Bearer ' + token,
+    //     // });
+
+    //     // let options = new RequestOptions({ headers: headers });
+
+    //     // return new Promise ((resolve, reject) => {
+    //     //   this.http.get(this.yourCoffeeUrl + '/user', options)
+    //     //     .map((res: Response) => res.json())
+    //     //     .subscribe(data => {
+    //     //       this._user = data.data;
+    //     //       this.storage.set('user-detail', this._user)
+    //     //       resolve(data);
+    //     //     },
+    //     //     (err) => {
+    //     //       reject(err);
+    //     //     });
+    //     //     // .catch(this.handleError);
+    //     // });
+    //   }
+    // } else {
+
+      let headers = new Headers({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      });
+
+      let options = new RequestOptions({ headers: headers });
+
+      return new Promise ((resolve, reject) => {
+        this.http.get(this.yourCoffeeUrl + '/user', options)
+          .map((res: Response) => res.json())
+          .subscribe(data => {
+            this._user = data.data;
+            this.storage.set('user-detail', this._user)
+            resolve(data);
+          },
+          (err) => {
+            reject(err);
+          });
+          // .catch(this.handleError);
+      });
+    // }
+
+    // return Promise.resolve({'status': 'pending', 'data': this._user});
 
     // return this.http.get(this.yourCoffeeUrl + '/user', options)
     //        .map((res: Response) => res.json())
     //        .catch(this.handleError);
+  }
+
+  /**
+   * Log the user out, which forgets the session
+   */
+  logout() {
+
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this._userToken,
+    });
+
+    let options = new RequestOptions({ headers: headers });
+
+    return new Promise ((resolve, reject) => {
+      this.http.get(this.yourCoffeeUrl + '/logout', options)
+        .map((res : Response ) => res.json())
+        .catch(this.handleError)
+        .subscribe(res => {
+          this._userToken = null;
+          this.storage.remove('user-token');
+          this.storage.remove('user-detail');
+          this._user = null;
+          
+          resolve(res);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+      }
+    );
   }
 }

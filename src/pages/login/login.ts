@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SignUpPage } from '../sign-up/sign-up';
+import { Events } from 'ionic-angular';
 
 // import { UserProvider } from '../../providers/user/user';
 import { Storage } from '@ionic/storage';
@@ -22,7 +23,7 @@ export class LoginPage {
 
   credentials : { email: string, password: string } = { email:'', password: ''};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, /*public user: UserProvider*/public yourCoffeeService: YourCoffeeWebServiceProvider, public toastCtrl: ToastController, public storage: Storage) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, /*public user: UserProvider*/public yourCoffeeService: YourCoffeeWebServiceProvider, public toastCtrl: ToastController, public storage: Storage, private events: Events) {
   }
 
   ionViewDidLoad() {
@@ -33,10 +34,14 @@ export class LoginPage {
     this.yourCoffeeService.login(this.credentials).subscribe(
       (res) => {
         if (res.status == 'success') {
-          this.presentToast('Credenciales válidas', 'success');
           this.yourCoffeeService.setToken(res.token);
           // this.user._loggedIn(res);
-          this.checkUser(res.token);
+          // let user = this.checkUser(res.token);
+          this.yourCoffeeService.user(res.token).then((user: any) => {
+            // console.log(user);
+            this.presentToast('¡Bienvenido ' + user.data.nombres + ' ' + user.data.apellidos + '!', 'success');
+            this.events.publish('auth:login', user);
+          });
         } else {
           this.presentToast(res.message, res.status);
         }
@@ -51,6 +56,7 @@ export class LoginPage {
   checkUser(token) {
     this.yourCoffeeService.user(token).then(user => {
       console.log(user);
+      return user;
     });
     // this.storage.get('user-token').then((token) => {
     //   console.log(token);

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Storage } from '@ionic/storage';
+
 import 'rxjs/add/operator/map';
 
 import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-service/your-coffee-web-service";
@@ -12,9 +14,10 @@ import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-se
 @Injectable()
 export class UserProvider {
 
-  _user: any;
+  private _userToken: any = null;
+  private _user: any;
 
-  constructor(public http: Http, public yourCoffeeService: YourCoffeeWebServiceProvider) {
+  constructor(public http: Http, public yourCoffeeService: YourCoffeeWebServiceProvider, public storage: Storage) {
     console.log('Hello UserProvider Provider');
   }
 
@@ -23,6 +26,10 @@ export class UserProvider {
    * the user entered on the form.
    */
   login(credentials: any) {
+    if (this._userToken) {
+      return Promise.resolve({'status': 'success', 'data': this._userToken});
+    }
+
     let req = this.yourCoffeeService.login(credentials);
 
     // req
@@ -35,7 +42,7 @@ export class UserProvider {
     //         }
     //       },
     //       (err) => {
-    //         // console.log(err);
+    //         console.log(err);
     //       }
     //     );
 
@@ -88,9 +95,21 @@ export class UserProvider {
   /**
    * Process a login/signup response to store user data
    */
-  _loggedIn(resp) {
-    this._user = resp.token;
-    localStorage.setItem('token', resp.token);
-  }
+  // _loggedIn(resp) {
+  //   this._userToken = resp.token;
+  //   this.storage.set('user-token', this._userToken);
+  //   this.yourCoffeeService.user(this._userToken).then(
+  //     (userDetail) => {
+  //       if(userDetail.status == 'success') {
+  //         this._user = userDetail.data;
+  //         this.storage.set('user-detail', this._user);
+  //       } else {
+  //         this._user = null;
+  //         this.storage.set('user-detail', null);
+  //       }
+  //     }
+  //   );
+    // localStorage.setItem('user-token', resp.token);
+  // }
 
 }

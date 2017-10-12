@@ -1,13 +1,44 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar class="menu-header">
-      <ion-title>Menu</ion-title>
+      <ion-title *ngIf="user.data == null; else User">¡Bienvenido!</ion-title>
+      <ng-template #User><ion-title>¡Hola {{user.data.nombres}} {{user.data.apellidos}}!</ion-title></ng-template>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list no-lines>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+      <div *ngIf="user.data == null; then unauthenticated else authenticated"></div>
+
+      <ng-template #authenticated>
+        <!-- <button menuClose ion-item (click)="openPage(ProfilePage)">
+          <ion-icon item-left ios="ios-person" md="md-person"></ion-icon>
+          Perfil
+        </button>
+
+        <button menuClose ion-item (click)="logOut()">
+          <ion-icon item-left ios="ios-log-out" md="md-log-out"></ion-icon>
+          Cerrar Sesión
+        </button> -->
+        <button menuClose ion-item *ngFor="let p of authPages" (click)="openPage(p.component)">
+          <ion-icon item-left ios="ios-{{p.icon}}" md="md-{{p.icon}}"></ion-icon>
+          {{p.title}}
+        </button>
+
+      </ng-template>
+
+      <ng-template #unauthenticated>
+        <!-- <button menuClose ion-item (click)="openPage(LoginPage)">
+          <ion-icon item-left ios="ios-log-in" md="md-log-in"></ion-icon>
+          Iniciar Sesión
+        </button> -->
+        <button menuClose ion-item *ngFor="let p of unAuthPages" (click)="openPage(p.component)">
+          <ion-icon item-left ios="ios-{{p.icon}}" md="md-{{p.icon}}"></ion-icon>
+          {{p.title}}
+        </button>
+      </ng-template>
+
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p.component)">
         <ion-icon item-left ios="ios-{{p.icon}}" md="md-{{p.icon}}"></ion-icon>
         {{p.title}}
       </button>
