@@ -30,6 +30,10 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
   }
 
+  /**
+   * Send a POST request to our login endpoint with the data
+   * the user entered on the form.
+   */
   login() {
     this.yourCoffeeService.login(this.credentials).subscribe(
       (res) => {

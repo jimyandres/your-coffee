@@ -2,7 +2,11 @@
   <ion-header>
     <ion-toolbar class="menu-header">
       <ion-title *ngIf="user.data == null; else User">¡Bienvenido!</ion-title>
-      <ng-template #User><ion-title>¡Hola {{user.data.nombres}} {{user.data.apellidos}}!</ion-title></ng-template>
+      <ng-template #User>
+        <ion-title>
+          ¡Hola {{user.data.nombres}} {{user.data.apellidos}}!
+        </ion-title>
+      </ng-template>
     </ion-toolbar>
   </ion-header>
 
