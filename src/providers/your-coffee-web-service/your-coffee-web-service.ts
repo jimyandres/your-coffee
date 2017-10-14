@@ -166,6 +166,17 @@ export class YourCoffeeWebServiceProvider {
     //   // return Observable.throw(error.json().error || 'Server error');
     // }
 
+
+  getRegister() {
+    let headers = new Headers({'Accept': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+
+     return  this.http.get(this.yourCoffeeUrl + "/register", options)
+            // .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json())//.catch(this.handleError);;
+            .catch(this.handleError);
+  }
+
   login(credentials) {
     let headers = new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'});
 
@@ -339,5 +350,35 @@ export class YourCoffeeWebServiceProvider {
       );
       }
     );
+  }
+
+  country() {
+    let headers = new Headers({'Accept': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+
+     return  this.http.get(this.yourCoffeeUrl + "/country", options)
+            // .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json())//.catch(this.handleError);;
+            .catch(this.handleError);
+  }
+
+  departments(country) {
+    let headers = new Headers({'Accept': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+
+     return  this.http.get(this.yourCoffeeUrl + "/departments/" + country, options)
+            // .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json())//.catch(this.handleError);;
+            .catch(this.handleError);
+  }
+
+  cities(department) {
+    let headers = new Headers({'Accept': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
+
+     return  this.http.get(this.yourCoffeeUrl + "/cities/" + department, options)
+            // .do((res : Response ) => console.log(res.json()))
+            .map((res : Response ) => res.json())//.catch(this.handleError);;
+            .catch(this.handleError);
   }
 }
