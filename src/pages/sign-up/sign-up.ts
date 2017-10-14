@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Storage } from '@ionic/storage';
 import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-service/your-coffee-web-service";
+
+import { buyerIdValidator } from "../../validators/buyer_id";
+import { buyerPassConfirmationValidator } from "../../validators/buyer_pass_confirmation";
 
 /**
  * Generated class for the SignUpPage page.
@@ -18,37 +22,78 @@ import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-se
 })
 export class SignUpPage {
   user = {} as User;
-  step: any;
-  stepCondition: any;
-  stepDefaultCondition: any;
-  currentStep: any;
   fieldsOptions: any = {};
   paises: any = [];
   departamentos: any = [];
   ciudades: any = [];
 
+  @ViewChild('signupSlider') signupSlider: any;
+
+  slideOneForm: FormGroup;
+  slideTwoForm: FormGroup;
+  slideThreeForm: FormGroup;
+  submitAttempt: boolean = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public evts: Events, public yourCoffeeService: YourCoffeeWebServiceProvider, public storage: Storage) {
-    /**
-     * Step Wizard Settings
-     */
-    this.step = 1;//The value of the first step, always 1
-    this.stepCondition = true;//Set to true if you don't need condition in every step
-    this.stepDefaultCondition = this.stepCondition;//Save the default condition for every step
-    //You can subscribe to the Event 'step:changed' to handle the current step
-    this.evts.subscribe('step:changed', step => {
-      //Handle the current step if you need
-      this.currentStep = step[0];
-      //Set the step condition to the default value
-      this.stepCondition = this.stepDefaultCondition;
+              public evts: Events, public yourCoffeeService: YourCoffeeWebServiceProvider,
+              public storage: Storage, public formBuilder: FormBuilder) {
+    this.slideOneForm = formBuilder.group({
+      id: ['', Validators.compose([
+        Validators.minLength(8),
+        Validators.maxLength(10),
+        Validators.pattern('(\\d{8}|\\d{10})'),
+        buyerIdValidator.isValid])],
+      nombres: ['', Validators.compose([
+        Validators.maxLength(45),
+        Validators.pattern('[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*'),
+        Validators.required])],
+      apellidos: ['', Validators.compose([
+        Validators.maxLength(45),
+        Validators.pattern('[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*'),
+        Validators.required])],
+      email: ['', Validators.compose([
+        Validators.maxLength(45),
+        Validators.required])],
+      password: ['', Validators.compose([
+        Validators.minLength(8),
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+'),
+        Validators.required])],
+      password_confirmation: ['', Validators.compose([
+        Validators.minLength(8),
+        buyerPassConfirmationValidator.isValid])],
+      telefono: ['', Validators.compose([
+        Validators.minLength(7),
+        Validators.maxLength(10),
+        Validators.pattern('\\d{7,10}'),
+        Validators.required])],
+      idNivelEstudios: ['', Validators.compose([
+        Validators.required])]
     });
-    this.evts.subscribe('step:next', () => {
-      //Do something if next
-      console.log('Next pressed: ', this.currentStep);
+
+    this.slideTwoForm = formBuilder.group({
+      pais: ['', Validators.compose([
+        Validators.maxLength(45),
+        Validators.required])],
+      departamento: ['', Validators.compose([
+        Validators.maxLength(45),
+        Validators.required])],
+      ciudad: ['', Validators.compose([
+        Validators.maxLength(45),
+        Validators.required])],
+      direccion: ['', Validators.compose([
+        Validators.maxLength(60),
+        Validators.required])],
+      direccionAuxiliar: ['', Validators.compose([
+        Validators.maxLength(60)])],
+      codigoPostal: ['', Validators.compose([
+        Validators.maxLength(10),
+        Validators.pattern('\\d{0,10}'),
+        Validators.required])]
     });
-    this.evts.subscribe('step:back', () => {
-      //Do something if back
-      console.log('Back pressed: ', this.currentStep);
+
+    this.slideThreeForm = formBuilder.group({
+      idFrecuenciaCompraCafe: ['', Validators.compose([
+        Validators.required])],
     });
   }
 
@@ -125,6 +170,34 @@ export class SignUpPage {
   parse(data) {
     var sub = (data.charAt(0).toUpperCase() + data.substr(1)).match(/[A-Z][a-z]+/g);
     return sub.join(' ');
+  }
+
+  next(){
+    this.signupSlider.slideNext();
+  }
+
+  prev(){
+    this.signupSlider.slidePrev();
+  }
+
+  save(){
+    this.submitAttempt = true;
+
+    if(!this.slideOneForm.valid){
+      this.signupSlider.slideTo(0);
+    }
+    else if(!this.slideTwoForm.valid){
+      this.signupSlider.slideTo(1);
+    }
+    else if(!this.slideThreeForm.valid){
+      this.signupSlider.slideTo(2);
+    }
+    else {
+      console.log("success!")
+      console.log(this.slideOneForm.value);
+      console.log(this.slideTwoForm.value);
+      console.log(this.slideThreeForm.value);
+    }
   }
 
 }
