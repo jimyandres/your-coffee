@@ -70,7 +70,14 @@ export class MyApp {
                         }
 
                     }, (err) => {
-                        console.log(err.json());
+                        // console.log(err);
+                        let res = err.json();
+
+                        if(res.error = 'Unauthenticated.') {
+                            this.rootPage = LoginPage;
+                        }
+                        // console.log(err.json());
+                        // this.nav.setRoot(this.rootPage);
                     });
                 } else {
                     this.rootPage = LoginPage;
@@ -79,23 +86,15 @@ export class MyApp {
                 this.nav.setRoot(this.rootPage);
             },
             (err) => {
-                console.log(err.json());
-            });//.then((user) => {
-            //     console.log(user);
-            //     this.user = user;
-            //     console.log(this.user);
-            //     if (this.user.data == null) {
-            //         this.rootPage = LoginPage;
-            //     } else {
-            //         this.rootPage = HomePage;
-            //     }
+                console.log(err);
+                let res = err.json();
 
-            //     this.nav.setRoot(this.rootPage);
-            //     // console.log(this.rootPage);
-            // },
-            // (err) => {
-            //     console.log(err.json());
-            // });
+                if(res.error = 'Unauthenticated.') {
+                    this.rootPage = LoginPage;
+                }
+                console.log(err.json());
+                this.nav.setRoot(this.rootPage);
+            });
         });
     }
 
