@@ -13,6 +13,12 @@
 
 <ion-content class="outer-content" cards-bg social-cards>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-grid fixed>
     <!-- <ion-row> -->
     <ion-list no-border>
@@ -37,95 +43,95 @@
     </ion-row>
 
     <!-- Segment for Provider details -->
-    <ion-segment [(ngModel)]="providerSegment" color="primary">
-      <ion-segment-button value="provider">
-        Proveedor
-      </ion-segment-button>
-      <ion-segment-button value="estate">
-        Finca
-      </ion-segment-button>
-      <ion-segment-button value="products">
-        Productos
-      </ion-segment-button>
-    </ion-segment>
+    <div padding>
+      <ion-segment [(ngModel)]="providerSegment" color="primary">
+        <ion-segment-button value="provider">
+          Proveedor
+        </ion-segment-button>
+        <ion-segment-button value="estate">
+          Finca
+        </ion-segment-button>
+        <ion-segment-button value="products">
+          Productos
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 
-    <ion-list >
-      <div [ngSwitch]="providerSegment">
-        <ion-item-group *ngSwitchCase="'provider'">
-          <ion-item>
-            <h2>Nombre</h2>
-            <p>{{provider.nombres + " " + provider.apellidos}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Edad</h2>
-            <p>{{provider.edadProveedor}}</p>
-          </ion-item>
-        </ion-item-group>
+    <div [ngSwitch]="providerSegment">
+      <ion-list *ngSwitchCase="'provider'">
+        <ion-item>
+          <h2>Nombre</h2>
+          <p>{{provider.nombres + " " + provider.apellidos}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Edad</h2>
+          <p>{{provider.edadProveedor}}</p>
+        </ion-item>
+      </ion-list>
 
-        <ion-item-group *ngSwitchCase="'estate'">
-          <ion-item>
-            <h2>Nombre de la finca</h2>
-            <p>{{provider.nombreFinca}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Altura de la finca</h2>
-            <p>{{provider.alturaFinca}} m s. n. m.</p>
-          </ion-item>
-          <ion-item>
-            <h2>Extensión de la finca</h2>
-            <p>{{provider.extensionFinca}} ha</p>
-          </ion-item>
-          <ion-item>
-            <h2>Densidad de Siembra</h2>
-            <p>{{provider.densidad_siembra.tipo}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Años del Cafetal</h2>
-            <p>{{provider.annosCafetal}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Edad desde la última Zoca</h2>
-            <p>{{provider.edad_ultima_zoca.tipo}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Variedad de café</h2>
-            <p *ngFor="let variedad of provider.variedades_cafe">{{variedad.tipo}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Tipo de Beneficio / Beneficiado</h2>
-            <p>{{provider.tipo_beneficio.tipo}}</p>
-          </ion-item>
-          <ion-item>
-            <h2>Ecotopo</h2>
-            <p>{{provider.ecotopo.tipo}}</p>
-          </ion-item>
-        </ion-item-group>
+      <ion-list *ngSwitchCase="'estate'">
+        <ion-item>
+          <h2>Nombre de la finca</h2>
+          <p>{{provider.nombreFinca}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Altura de la finca</h2>
+          <p>{{provider.alturaFinca}} m s. n. m.</p>
+        </ion-item>
+        <ion-item>
+          <h2>Extensión de la finca</h2>
+          <p>{{provider.extensionFinca}} ha</p>
+        </ion-item>
+        <ion-item>
+          <h2>Densidad de Siembra</h2>
+          <p>{{provider.densidad_siembra.tipo}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Años del Cafetal</h2>
+          <p>{{provider.annosCafetal}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Edad desde la última Zoca</h2>
+          <p>{{provider.edad_ultima_zoca.tipo}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Variedad de café</h2>
+          <p *ngFor="let variedad of provider.variedades_cafe">{{variedad.tipo}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Tipo de Beneficio / Beneficiado</h2>
+          <p>{{provider.tipo_beneficio.tipo}}</p>
+        </ion-item>
+        <ion-item>
+          <h2>Ecotopo</h2>
+          <p>{{provider.ecotopo.tipo}}</p>
+        </ion-item>
+      </ion-list>
 
-        <ion-item-group *ngSwitchCase="'products'">
-          <ion-grid fixed>
-            <ion-row justify-content-between wrap>
-              <ion-col class="col-product" col-6 *ngFor="let product of provider.productos" (click)="itemTapped($event, product)">
-                <ion-card>
-                  <img [src]="product.fotos['0'].url"/>
-                  <ion-card-content>
-                    <p>
-                      <b>${{product.precioEmpaque}}</b>
-                    </p>
-                    <p>{{product.nombre}}</p>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-            <ion-row *ngIf="!provider.productos.length">
-              <ion-col align-self-center text-center>
-                <p>{{provider.nombres + " " + provider.apellidos}} aún no tiene productos disponibles.</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item-group>
+      <ion-list *ngSwitchCase="'products'">
+        <ion-grid fixed>
+          <ion-row justify-content-between wrap>
+            <ion-col class="col-product" col-6 *ngFor="let product of provider.productos" (click)="itemTapped($event, product)">
+              <ion-card>
+                <img [src]="product.fotos['0'].url"/>
+                <ion-card-content>
+                  <p>
+                    <b>${{product.precioEmpaque}}</b>
+                  </p>
+                  <p>{{product.nombre}}</p>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="!provider.productos.length">
+            <ion-col align-self-center text-center>
+              <p>{{provider.nombres + " " + provider.apellidos}} aún no tiene productos disponibles.</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
 
-      </div>
-    </ion-list>
+    </div>
 
   </ion-grid>
 

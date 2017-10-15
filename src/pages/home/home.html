@@ -13,28 +13,27 @@
 </ion-header>
 
 <ion-content class="card-background-page">
-  
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-card class="card-backgruound" no-padding>
     <img src="assets/img/sidebar-1.jpg"/>
     <div class="card-title">Your Coffee</div>
     <div class="card-subtitle">Bienvenido</div>
   </ion-card>
+
   <ion-grid fixed>
 
-  <ion-row justify-content-center>
-    <ion-col align-self-center>
-      <h3 text-center>Productos disponibles</h3>
-    </ion-col>
-  </ion-row>
-
-  <!-- <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-    <ion-icon [name]="item.icon" item-left></ion-icon>
-      {{item.title}}
-    <div class="item-note" item-right>
-      {{item.note}}
-    </div>
-  </button> -->
-
+    <ion-row justify-content-center>
+      <ion-col align-self-center>
+        <h3 text-center>Productos disponibles</h3>
+      </ion-col>
+    </ion-row>
+    
     <ion-row justify-content-between wrap>
 
       <ion-col class="col-product" col-6 *ngFor="let product of products.data" (click)="itemTapped($event, product)">

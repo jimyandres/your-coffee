@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-service/your-coffee-web-service";
+import { LoadingController } from 'ionic-angular';
 
+import {YourCoffeeWebServiceProvider} from "../../providers/your-coffee-web-service/your-coffee-web-service";
 import { ProductPage } from '../product/product';
 import { ProviderPage } from "../provider/provider";
 
@@ -22,26 +23,37 @@ export class SearchPage {
 
   products: Array<any> = [];
   providers: Array<any> = [];
-  apiURL: string = '';
+  loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private yourCoffeeService: YourCoffeeWebServiceProvider) {
-  	this.apiURL = this.yourCoffeeService.yourCoffeeUrl;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private yourCoffeeService: YourCoffeeWebServiceProvider, public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
   }
 
+  showLoader(message:string = 'Cargando...') {
+    this.loading = this.loadingCtrl.create({
+      content: message
+    });
+
+    this.loading.present();
+  
+  }
+
   getItems(event: any) {
   	let query = event.target.value;
 
    	if (query && query.trim() != '') {
+      this.showLoader();
    		this.yourCoffeeService.search(query).subscribe(
         (searchData) => {
+          this.loading.dismiss();
     			this.products = searchData.data.filter(checkClass, 'product');
     			this.providers = searchData.data.filter(checkClass, 'provider');
     		},
         (err) => {
+          this.loading.dismiss();
           console.log(err);
         }
       );
@@ -53,28 +65,32 @@ export class SearchPage {
   }
 
   seeProduct(product) {
-  	this.yourCoffeeService.product(product.idPublicacion).subscribe(
+  	this.showLoader();
+    this.yourCoffeeService.product(product.idPublicacion).subscribe(
       (productInfo) => {
-      	this.navCtrl.push(ProductPage, {
-      		item: productInfo,
-      		apiURL: this.apiURL
-      	});
-  	  },
+        this.loading.dismiss();
+        this.navCtrl.push(ProductPage, {
+            item: productInfo,
+        });
+      },
       (err) => {
+        this.loading.dismiss();
         console.log(err);
       }
     );
   }
 
   seeProvider(provider) {
+    this.showLoader();
     this.yourCoffeeService.provider(provider.id).subscribe(
       (providerInfo) => {
+        this.loading.dismiss();
         this.navCtrl.push(ProviderPage, {
-            item: providerInfo,
-            apiURL: this.apiURL
+          item: providerInfo,
         });
       },
       (err) => {
+        this.loading.dismiss();
         console.log(err);
       }
     );

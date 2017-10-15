@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { SignUpPage } from '../sign-up/sign-up';
 import { Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { LoadingController } from 'ionic-angular';
 
 // import { UserProvider } from '../../providers/user/user';
-import { Storage } from '@ionic/storage';
+
+import { SignUpPage } from '../sign-up/sign-up';
 import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
 /**
@@ -22,12 +24,22 @@ import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-se
 export class LoginPage {
 
   credentials : { email: string, password: string } = { email:'', password: ''};
+  loading: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, /*public user: UserProvider*/public yourCoffeeService: YourCoffeeWebServiceProvider, public toastCtrl: ToastController, public storage: Storage, private events: Events) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, /*public user: UserProvider*/public yourCoffeeService: YourCoffeeWebServiceProvider, public toastCtrl: ToastController, public storage: Storage, private events: Events, public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
+  }
+
+  showLoader(message:string = 'Cargando...') {
+    this.loading = this.loadingCtrl.create({
+      content: message
+    });
+
+    this.loading.present();
+  
   }
 
   /**
@@ -35,8 +47,10 @@ export class LoginPage {
    * the user entered on the form.
    */
   login() {
+    this.showLoader();
     this.yourCoffeeService.login(this.credentials).subscribe(
       (res) => {
+        this.loading.dismiss();
         if (res.status == 'success') {
           this.yourCoffeeService.setToken(res.token);
           // this.user._loggedIn(res);
@@ -52,6 +66,7 @@ export class LoginPage {
       },
       (err) => {
         // console.log(err);
+        this.loading.dismiss();
         this.presentToast(err.message, err.status);
       }
     );
