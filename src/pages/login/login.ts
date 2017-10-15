@@ -92,7 +92,7 @@ export class LoginPage {
   }
 
   signUp() {
-    this.navCtrl.push(SignUpPage);
+    this.navCtrl.setRoot(SignUpPage);
   }
 
   presentToast(msg?: string, status?: string) {

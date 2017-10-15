@@ -371,7 +371,7 @@ export class YourCoffeeWebServiceProvider {
           this.storage.remove('user-token');
           this.storage.remove('user-detail');
           this._user = null;
-          
+
           resolve(res);
         },
         (err) => {
