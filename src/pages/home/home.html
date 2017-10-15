@@ -33,10 +33,24 @@
         <h3 text-center>Productos disponibles</h3>
       </ion-col>
     </ion-row>
+
+    <!-- <ion-card *ngFor="let product of products" (click)="itemTapped($event, product)">
+      <img [src]="product.fotos['0'].url"/>
+      <ion-card-content>
+        <p>
+          <b>${{product.precioEmpaque}}</b>
+        </p>
+        <p>{{product.nombre}}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
     
     <ion-row justify-content-between wrap>
 
-      <ion-col class="col-product" col-6 *ngFor="let product of products.data" (click)="itemTapped($event, product)">
+      <ion-col class="col-product" col-6 *ngFor="let product of products" (click)="itemTapped($event, product)">
         <ion-card>
           <img [src]="product.fotos['0'].url"/>
           <ion-card-content>
@@ -50,6 +64,10 @@
 
     </ion-row>
 
+    <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    
   </ion-grid>
 
 </ion-content>

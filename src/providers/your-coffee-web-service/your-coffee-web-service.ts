@@ -61,9 +61,19 @@ export class YourCoffeeWebServiceProvider {
     return Observable.throw(error.json());
   }
 // : Observable<YourCoffeeWebServiceProvider[]>
-  load() {
+  load(page?: any) {
   	let headers = new Headers({'Accept': 'application/json'});
     let options = new RequestOptions({ headers: headers });
+
+    if (page) {
+      let p = new URLSearchParams();
+      for (let k in page) {
+        p.set(k, page[k]);
+      }
+      // Set the search field if we have params and don't already have
+      // a search field set in options.
+      options.params = !options.params && p || options.params;
+    }
 
    	return  this.http.get(this.yourCoffeeUrl + "/home", options)
             // .do((res : Response ) => console.log(res.json()))
@@ -89,9 +99,19 @@ export class YourCoffeeWebServiceProvider {
     //   });
     // }
 
-  product(id) {
+  product(id, params?: any) {
     let headers = new Headers({'Accept': 'application/json'});
     let options = new RequestOptions({ headers: headers });
+
+    if (params) {
+      let p = new URLSearchParams();
+      for (let k in params) {
+        p.set(k, params[k]);
+      }
+      // Set the search field if we have params and don't already have
+      // a search field set in options.
+      options.params = !options.params && p || options.params;
+    }
 
     return this.http.get(this.yourCoffeeUrl + "/product/" + id, options)
           // .do((res : Response ) => console.log(res.json()))
@@ -99,9 +119,19 @@ export class YourCoffeeWebServiceProvider {
           .catch(this.handleError);
   }
 
-  provider(id) {
+  provider(id, product_page?: any) {
       let headers = new Headers({'Accept': 'application/json'});
       let options = new RequestOptions({ headers: headers });
+
+      if (product_page) {
+        let p = new URLSearchParams();
+        for (let k in product_page) {
+          p.set(k, product_page[k]);
+        }
+        // Set the search field if we have params and don't already have
+        // a search field set in options.
+        options.params = !options.params && p || options.params;
+      }
 
       return this.http.get(this.yourCoffeeUrl + "/provider/" + id, options)
           // .do((res : Response ) => console.log(res.json()))

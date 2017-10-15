@@ -47,6 +47,16 @@ export class ProductPage {
     console.log('ionViewDidLoad ProductPage');
   }
 
+  ionViewWillEnter() {
+    if(this.navParams.get('questions')) {
+      this.questions = this.navParams.get('questions');
+    }
+
+    if(this.navParams.get('reviews')) {
+      this.reviews = this.navParams.get('reviews');
+    }
+  }
+
   doRefresh(refresher: Refresher) {
       // console.log('DOREFRESH', refresher);
 
@@ -121,12 +131,14 @@ export class ProductPage {
   seeQuestions() {
     this.navCtrl.push(ProductQuestionsPage, {
       questions: this.questions,
+      product: this.product.idPublicacion
     });
   }
 
   seeReviews() {
     this.navCtrl.push(ProductReviewsPage, {
       reviews: this.reviews,
+      product: this.product.idPublicacion
     });
   }
 

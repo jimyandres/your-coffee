@@ -111,7 +111,7 @@
       <ion-list *ngSwitchCase="'products'">
         <ion-grid fixed>
           <ion-row justify-content-between wrap>
-            <ion-col class="col-product" col-6 *ngFor="let product of provider.productos" (click)="itemTapped($event, product)">
+            <ion-col class="col-product" col-6 *ngFor="let product of products" (click)="itemTapped($event, product)">
               <ion-card>
                 <img [src]="product.fotos['0'].url"/>
                 <ion-card-content>
@@ -123,7 +123,12 @@
               </ion-card>
             </ion-col>
           </ion-row>
-          <ion-row *ngIf="!provider.productos.length">
+
+          <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+          
+          <ion-row *ngIf="!products.length">
             <ion-col align-self-center text-center>
               <p>{{provider.nombres + " " + provider.apellidos}} aún no tiene productos disponibles.</p>
             </ion-col>

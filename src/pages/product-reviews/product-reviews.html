@@ -14,7 +14,7 @@
 
 	<ion-grid fixed>
 
-	<ion-card *ngFor="let review of reviews.data" style="margin-bottom: 5px;">
+	<ion-card *ngFor="let review of reviews" style="margin-bottom: 5px;">
 
 		<ion-card-content style="padding-bottom: 0;">
 			<ion-list no-lines>
@@ -39,7 +39,11 @@
 		</ion-card-content>
 	</ion-card>
 
-	<ion-row *ngIf="!reviews.total">
+	<ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
+	  <ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+
+	<ion-row *ngIf="!reviews.length">
 		<ion-col align-self-center text-center>
 			<p>Nadie ha calificado este producto. ¡Anímate a comprar y dinos que piensas!</p>
 		</ion-col>
