@@ -4,17 +4,20 @@
       <ion-icon name="menu"></ion-icon>
     </button> -->
     <ion-title>Registrarse</ion-title>
-    <ion-buttons start>
+    <ion-buttons *ngIf="!signupSlider.isBeginning()" ion-button icon-only left class="card-buttons" start>
       <button ion-button icon-left (click)="prev()"><ion-icon name="arrow-back"></ion-icon> Prev</button>
     </ion-buttons>
-    <ion-buttons end>
-      <button ion-button icon-right (click)="next()">Next <ion-icon name="arrow-forward"></ion-icon></button>
+    <ion-buttons *ngIf="!signupSlider.isEnd()" ion-button icon-only right end>
+      <button ion-button icon-right (click)="next()">Sig <ion-icon name="arrow-forward"></ion-icon></button>
+    </ion-buttons>
+    <ion-buttons *ngIf="signupSlider.isEnd()" ion-button icon-only right end>
+      <button ion-button icon-right (click)="save()">Fin <ion-icon name="done-all"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="no-scroll">
   <ion-slides #signupSlider pager>
 
     <ion-slide>
