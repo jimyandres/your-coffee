@@ -74,13 +74,15 @@
             <ion-input type="number" formControlName="telefono"></ion-input>
           </ion-item>
 
-          <ion-item class="final_item">
+          <ion-item>
             <ion-icon ios="ios-school" md="md-school" item-start></ion-icon>
             <ion-label floating>Nivel de Estudios</ion-label>
             <ion-select formControlName="idNivelEstudios" submitText="OK" cancelText="Cancelar">
               <ion-option *ngFor="let nivelEstudio of fieldsOptions.nivelEstudios" value="{{nivelEstudio.id}}">{{nivelEstudio.tipo}}</ion-option>
             </ion-select>
           </ion-item>
+
+          <div class="final_item"></div>
 
         </form>
 
@@ -134,11 +136,14 @@
             <ion-input type="text" formControlName="direccionAuxiliar"></ion-input>
           </ion-item>
 
-          <ion-item class="final_item">
+          <ion-item>
             <ion-icon name="mail" item-start></ion-icon>
             <ion-label floating>Código postal</ion-label>
             <ion-input type="number" formControlName="codigoPostal"></ion-input>
           </ion-item>
+
+          <div class="final_item"></div>
+
         </form>
       </ion-list>
 
@@ -163,7 +168,7 @@
           </ion-item>
 
           <ng-template ngFor let-attribute let-l="last" [ngForOf]="fieldsOptions.attributes">
-              <ion-item [ngClass]="l ? 'final_item' : ''">
+              <ion-item>
                 <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
                 <ion-label floating>{{parse(attribute.nombreAtributo)}}</ion-label>
 
@@ -179,6 +184,9 @@
 
               </ion-item>
           </ng-template>
+
+          <div class="final_item"></div>
+
           <button ion-button full color="primary" (click)="save()">Registrarse</button>
 
         </form>

@@ -30,9 +30,6 @@ import { HttpModule } from '@angular/http';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { MomentModule } from 'angular2-moment';
 
-// Import ionic simple wizard
-import { IonSimpleWizard } from '../pages/ion-simple-wizard/ion-simple-wizard.component';
-import { IonSimpleWizardStep } from '../pages/ion-simple-wizard/ion-simple-wizard.step.component';
 import { UserProvider } from '../providers/user/user';
 
 @NgModule({
@@ -51,8 +48,6 @@ import { UserProvider } from '../providers/user/user';
     ProviderPage,
     LoginPage,
     SignUpPage,
-    IonSimpleWizard,
-    IonSimpleWizardStep,
     ListPage
   ],
   imports: [
