@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-toolbar no-border>
-    <ion-searchbar animated showCancelButton autofocus placeholder="¿Qué estas buscando?" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)"></ion-searchbar>
+    <ion-searchbar showCancelButton="true" autofocus="true" debounce="500" placeholder="¿Qué estas buscando?" autocomplete="true" (ionInput)="getItems($event)" (ionCancel)="cancelSearch($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

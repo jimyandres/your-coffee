@@ -56,44 +56,46 @@ export class MyApp {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
 
-            this.user = this.storage.get('user-token').then((token) => {
-                // console.log(token);
-                if(token != null) {
-                    this.yourCoffeeService.user(token).then((user) => {
-                        // console.log(user);
-                        this.user = user;
-                        // console.log(this.user);
-                        if (this.user.data == null) {
-                            this.rootPage = LoginPage;
-                        } else {
-                            this.rootPage = HomePage;
-                        }
+            this.storage.ready().then(() => {
+                this.user = this.storage.get('user-token').then((token) => {
+                    // console.log(token);
+                    if(token != null) {
+                        this.yourCoffeeService.user(token).then((user) => {
+                            // console.log(user);
+                            this.user = user;
+                            // console.log(this.user);
+                            if (this.user.data == null) {
+                                this.rootPage = LoginPage;
+                            } else {
+                                this.rootPage = HomePage;
+                            }
 
-                    }, (err) => {
-                        // console.log(err);
-                        let res = err.json();
+                        }, (err) => {
+                            // console.log(err);
+                            let res = err.json();
 
-                        if(res.error = 'Unauthenticated.') {
-                            this.rootPage = LoginPage;
-                        }
-                        // console.log(err.json());
-                        // this.nav.setRoot(this.rootPage);
-                    });
-                } else {
-                    this.rootPage = LoginPage;
-                }
+                            if(res.error = 'Unauthenticated.') {
+                                this.rootPage = LoginPage;
+                            }
+                            // console.log(err.json());
+                            // this.nav.setRoot(this.rootPage);
+                        });
+                    } else {
+                        this.rootPage = LoginPage;
+                    }
 
-                this.nav.setRoot(this.rootPage);
-            },
-            (err) => {
-                console.log(err);
-                let res = err.json();
+                    this.nav.setRoot(this.rootPage);
+                },
+                (err) => {
+                    console.log(err);
+                    let res = err.json();
 
-                if(res.error = 'Unauthenticated.') {
-                    this.rootPage = LoginPage;
-                }
-                console.log(err.json());
-                this.nav.setRoot(this.rootPage);
+                    if(res.error = 'Unauthenticated.') {
+                        this.rootPage = LoginPage;
+                    }
+                    console.log(err.json());
+                    this.nav.setRoot(this.rootPage);
+                });
             });
         });
     }
