@@ -92,7 +92,14 @@ export class LoginPage {
   }
 
   signUp() {
-    this.navCtrl.setRoot(SignUpPage);
+    this.yourCoffeeService.getRegister().subscribe((data) => {
+      this.navCtrl.setRoot(SignUpPage, {
+        fieldsOptions: data
+      });
+    },
+    (err) => {
+      console.log(err);
+    });
   }
 
   presentToast(msg?: string, status?: string) {
