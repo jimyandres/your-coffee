@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, LoadingController, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Storage } from '@ionic/storage';
@@ -34,10 +34,13 @@ export class SignUpPage {
   slideThreeForm: FormGroup;
   submitAttempt: boolean = false;
   nextAttempt: boolean = false;
+  errors: any = {};
+
+  loading: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public evts: Events, public yourCoffeeService: YourCoffeeWebServiceProvider,
-              public storage: Storage, public formBuilder: FormBuilder) {
+              public events: Events, public yourCoffeeService: YourCoffeeWebServiceProvider,
+              public storage: Storage, public formBuilder: FormBuilder, public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
 
     this.fieldsOptions = navParams.get('fieldsOptions');
 
@@ -117,8 +120,53 @@ export class SignUpPage {
     this.signupSlider.lockSwipes(true);
   }
 
+  showLoader(message:string = 'Cargando...') {
+    this.loading = this.loadingCtrl.create({
+      content: message
+    });
+
+    this.loading.present();
+  }
+
+  presentToast(msg?: string, status?: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      cssClass: status,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+      duration: 6000
+    });
+    toast.present();
+  }
+
   signUp() {
-    console.log("User registered!", this.user);
+    if(this.user) {
+      this.showLoader();
+      this.yourCoffeeService.register(this.user).subscribe(
+        (res) => {
+          if(res.status == 'success') {
+            this.yourCoffeeService.setToken(res.token);
+            this.yourCoffeeService.user(res.token).then((user: any) => {
+              // console.log(user);
+              this.loading.dismiss();
+              this.presentToast('¡Bienvenido ' + user.data.nombres + ' ' + user.data.apellidos + '!', 'success');
+              this.events.publish('auth:login', user);
+            });
+          } else {
+            this.presentToast(res.message, res.status);
+          }
+        },
+        (err) => {
+          this.loading.dismiss();
+          this.errors = err.errors;
+
+          this.presentToast("La información proporcionada es inválida, por favor revisa nuevamente los campos.", "failed");
+          this.signupSlider.lockSwipes(false);
+          this.signupSlider.slideTo(0);
+          this.signupSlider.lockSwipes(true);
+        }
+      );
+    }
   }
 
   getValues(obj) {
@@ -135,19 +183,25 @@ export class SignUpPage {
   }
 
   departments(country) {
+    this.showLoader();
     this.yourCoffeeService.departments(country).subscribe((data) => {
+      this.loading.dismiss();
       this.departamentos = this.getValues(data);
     },
     (err) => {
+      this.loading.dismiss();
       console.log(err);
     });
   }
 
   cities(department) {
+    this.showLoader();
     this.yourCoffeeService.cities(department).subscribe((data) => {
+      this.loading.dismiss();
       this.ciudades = this.getValues(data);
     },
     (err) => {
+      this.loading.dismiss();
       console.log(err);
     });
   }
