@@ -5,8 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-service/your-coffee-web-service";
 
-import { buyerIdValidator } from "../../validators/buyer_id";
-import { buyerPassConfirmationValidator } from "../../validators/buyer_pass_confirmation";
+import { BuyerIdValidator } from "../../validators/buyer_id";
+import { BuyerPassConfirmationValidator } from "../../validators/buyer_pass_confirmation";
 
 /**
  * Generated class for the SignUpPage page.
@@ -21,50 +21,56 @@ import { buyerPassConfirmationValidator } from "../../validators/buyer_pass_conf
   templateUrl: 'sign-up.html',
 })
 export class SignUpPage {
-  user = {} as User;
+  @ViewChild('signupSlider') signupSlider: any;
+
+  user: any = {};
   fieldsOptions: any = {};
   paises: any = [];
   departamentos: any = [];
   ciudades: any = [];
 
-  @ViewChild('signupSlider') signupSlider: any;
-
   slideOneForm: FormGroup;
   slideTwoForm: FormGroup;
   slideThreeForm: FormGroup;
   submitAttempt: boolean = false;
+  nextAttempt: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public evts: Events, public yourCoffeeService: YourCoffeeWebServiceProvider,
               public storage: Storage, public formBuilder: FormBuilder) {
-    this.slideOneForm = formBuilder.group({
+
+    this.fieldsOptions = navParams.get('fieldsOptions');
+
+    this.slideOneForm = this.formBuilder.group({
       id: ['', Validators.compose([
         Validators.minLength(8),
         Validators.maxLength(10),
-        Validators.pattern('(\\d{8}|\\d{10})'),
-        buyerIdValidator.isValid])],
+        Validators.pattern('^(\\d{8}|\\d{10})$'),
+        Validators.required,
+        BuyerIdValidator.isValid])],
       nombres: ['', Validators.compose([
         Validators.maxLength(45),
-        Validators.pattern('[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*'),
+        Validators.pattern('^[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*$'),
         Validators.required])],
       apellidos: ['', Validators.compose([
         Validators.maxLength(45),
-        Validators.pattern('[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*'),
+        Validators.pattern('^[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*$'),
         Validators.required])],
       email: ['', Validators.compose([
         Validators.maxLength(45),
         Validators.required])],
       password: ['', Validators.compose([
         Validators.minLength(8),
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+'),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$'),
         Validators.required])],
       password_confirmation: ['', Validators.compose([
         Validators.minLength(8),
-        buyerPassConfirmationValidator.isValid])],
+        Validators.required,
+        BuyerPassConfirmationValidator.isValid])],
       telefono: ['', Validators.compose([
         Validators.minLength(7),
         Validators.maxLength(10),
-        Validators.pattern('\\d{7,10}'),
+        Validators.pattern('^\\d{7,10}$'),
         Validators.required])],
       idNivelEstudios: ['', Validators.compose([
         Validators.required])]
@@ -87,33 +93,32 @@ export class SignUpPage {
         Validators.maxLength(60)])],
       codigoPostal: ['', Validators.compose([
         Validators.maxLength(10),
-        Validators.pattern('\\d{0,10}'),
+        Validators.pattern('^\\d{0,10}$'),
         Validators.required])]
     });
 
-    this.slideThreeForm = formBuilder.group({
+    let formThreeFields = {
       idFrecuenciaCompraCafe: ['', Validators.compose([
         Validators.required])],
-    });
+    };
+
+    let attrs = this.fieldsOptions.attributes;
+    for( var i=0; i<attrs.length; i++) {
+      formThreeFields[attrs[i].nombreAtributo] = [''];
+    }
+
+    this.slideThreeForm = formBuilder.group(formThreeFields);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignUpPage');
-    this.loadFields();
     this.country();
+
+    this.signupSlider.lockSwipes(true);
   }
 
   signUp() {
     console.log("User registered!", this.user);
-  }
-
-  loadFields() {
-    this.yourCoffeeService.getRegister().subscribe((data) => {
-      this.fieldsOptions = data;
-    },
-    (err) => {
-      console.log(err);
-    });
   }
 
   getValues(obj) {
@@ -152,8 +157,8 @@ export class SignUpPage {
     // this.departamentos = [];
     // this.ciudades = [];
     if(val && val != '') {
-      this.user.departamento = '';
-      this.user.ciudad = '';
+      // this.user.departamento = '';
+      // this.user.ciudad = '';
       this.departments(val);
     }
   }
@@ -162,7 +167,8 @@ export class SignUpPage {
     // console.log('Department Change:', val);
     // this.ciudades = [];
     if(val && val != '') {
-      this.user.ciudad = '';
+      // this.slideTwoForm.controls.ciudad.value = '';
+      // this.ciudades = [];
       this.cities(val);
     }
   }
@@ -173,30 +179,84 @@ export class SignUpPage {
   }
 
   next(){
-    this.signupSlider.slideNext();
+    // this.signupSlider.slideNext();
+    this.nextAttempt = false;
+
+    let index = this.signupSlider.getActiveIndex();
+
+    switch (index) {
+      case 0:
+        if(!this.slideOneForm.valid) {
+          this.nextAttempt = true;
+        } else {
+          this.nextAttempt = false;
+          this.signupSlider.lockSwipes(false);
+          this.signupSlider.slideNext();
+          this.signupSlider.lockSwipes(true);
+        }
+        break;
+
+      case 1:
+        if(!this.slideTwoForm.valid) {
+          this.nextAttempt = true;
+        } else {
+          this.nextAttempt = false;
+          this.signupSlider.lockSwipes(false);
+          this.signupSlider.slideNext();
+          this.signupSlider.lockSwipes(true);
+        }
+        break;
+
+      case 2:
+        if(!this.slideThreeForm.valid) {
+          this.nextAttempt = true;
+        } else {
+          this.nextAttempt = false;
+          this.signupSlider.lockSwipes(false);
+          this.signupSlider.slideNext();
+          this.signupSlider.lockSwipes(true);
+        }
+        break;  
+      
+      default:
+        // code...
+        break;
+    }
   }
 
   prev(){
+    this.signupSlider.lockSwipes(false);
     this.signupSlider.slidePrev();
+    this.signupSlider.lockSwipes(true);
   }
 
   save(){
     this.submitAttempt = true;
 
     if(!this.slideOneForm.valid){
+      this.signupSlider.lockSwipes(false);
       this.signupSlider.slideTo(0);
+      this.signupSlider.lockSwipes(true);      
     }
     else if(!this.slideTwoForm.valid){
+      this.signupSlider.lockSwipes(false);
       this.signupSlider.slideTo(1);
+      this.signupSlider.lockSwipes(true);
     }
     else if(!this.slideThreeForm.valid){
+      this.signupSlider.lockSwipes(false);
       this.signupSlider.slideTo(2);
+      this.signupSlider.lockSwipes(true);
     }
     else {
       console.log("success!")
-      console.log(this.slideOneForm.value);
-      console.log(this.slideTwoForm.value);
-      console.log(this.slideThreeForm.value);
+      // console.log(this.slideOneForm.value);
+      // console.log(this.slideTwoForm.value);
+      // console.log(this.slideThreeForm.value);
+
+      this.user = Object.assign(this.user, this.slideOneForm.value, this.slideTwoForm.value, this.slideThreeForm.value);
+
+      this.signUp();
     }
   }
 

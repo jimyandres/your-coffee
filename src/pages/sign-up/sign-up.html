@@ -1,8 +1,8 @@
 <ion-header>
   <ion-navbar>
-    <!-- <button ion-button menuToggle>
+    <button *ngIf="signupSlider.isBeginning()" ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
-    </button> -->
+    </button>
     <ion-title>Registrarse</ion-title>
     <ion-buttons *ngIf="!signupSlider.isBeginning()" ion-button icon-only left class="card-buttons" start>
       <button ion-button icon-left (click)="prev()"><ion-icon name="arrow-back"></ion-icon> Prev</button>
@@ -18,7 +18,7 @@
 
 
 <ion-content padding class="no-scroll">
-  <ion-slides #signupSlider pager>
+  <ion-slides #signupSlider pager paginationType="fraction">
 
     <ion-slide>
 
@@ -32,54 +32,100 @@
             Información Personal
           </ion-list-header>
 
-          <ion-item>
+          <ion-item [class.invalid]="!slideOneForm.controls.id.valid && (slideOneForm.controls.id.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-finger-print" md="md-finger-print" item-start></ion-icon>
             <ion-label floating>Número de documento</ion-label>
             <ion-input type="text" formControlName="id"></ion-input>
+            <!-- <ion-icon item-end name="close" color="danger" *ngIf="!slideOneForm.controls.id.valid && (slideOneForm.controls.id.dirty || submitAttempt)"></ion-icon> -->
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideOneForm.controls.id.valid && (slideOneForm.controls.id.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa un número de documento válido.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideOneForm.controls.nombres.valid && (slideOneForm.controls.nombres.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-contact" md="md-contact" item-start></ion-icon>
             <ion-label floating>Nombres</ion-label>
             <ion-input type="text" formControlName="nombres"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideOneForm.controls.nombres.valid && (slideOneForm.controls.nombres.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa un nombre válido.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideOneForm.controls.apellidos.valid && (slideOneForm.controls.apellidos.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-contact" md="md-contact" item-start></ion-icon>
             <ion-label floating>Apellidos</ion-label>
             <ion-input type="text" formControlName="apellidos"></ion-input>
           </ion-item>
 
-          <ion-item>
-            <ion-icon ios="ios-mail" md="md-mail" item-start></ion-icon>
-            <ion-label floating>Tu e-mail</ion-label>
-            <ion-input type="email" formControlName="email"></ion-input>
+          <ion-item class="error" *ngIf="!slideOneForm.controls.apellidos.valid && (slideOneForm.controls.apellidos.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa un apellido válido.</p>
           </ion-item>
 
-          <ion-item>
+          <ion-item [class.invalid]="!slideOneForm.controls.email.valid && (slideOneForm.controls.email.dirty || submitAttempt || nextAttempt)">
+            <ion-icon ios="ios-mail" md="md-mail" item-start></ion-icon>
+            <ion-label floating>Tu e-mail</ion-label>
+            <ion-input type="email" formControlName="email" email></ion-input>
+          </ion-item>
+
+          <ion-item class="error" *ngIf="!slideOneForm.controls.email.valid && (slideOneForm.controls.email.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa un correo válido.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideOneForm.controls.password.valid && (slideOneForm.controls.password.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-lock" md="md-lock" item-start></ion-icon>
             <ion-label floating>Contraseña</ion-label>
             <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
-
           <ion-item>
+            <p text-wrap>
+              Tu contraseña debe ser de por lo menos de 8 caracteres, incluyendo mayúsculas y números.
+            </p>
+          </ion-item>
+
+          <ion-item class="error" *ngIf="!slideOneForm.controls.password.valid && (slideOneForm.controls.password.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa una contraseña válida.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideOneForm.controls.password_confirmation.valid && (slideOneForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
             <ion-label floating>Confirmar contraseña</ion-label>
             <ion-input type="password" formControlName="password_confirmation"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideOneForm.controls.password_confirmation.valid && (slideOneForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Las contraseñas no coinciden.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideOneForm.controls.telefono.valid && (slideOneForm.controls.telefono.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-call" md="md-call" item-start></ion-icon>
             <ion-label floating>Teléfono</ion-label>
             <ion-input type="number" formControlName="telefono"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideOneForm.controls.telefono.valid && (slideOneForm.controls.telefono.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa un teléfono válido.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideOneForm.controls.idNivelEstudios.valid && (slideOneForm.controls.idNivelEstudios.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-school" md="md-school" item-start></ion-icon>
             <ion-label floating>Nivel de Estudios</ion-label>
             <ion-select formControlName="idNivelEstudios" submitText="OK" cancelText="Cancelar">
               <ion-option *ngFor="let nivelEstudio of fieldsOptions.nivelEstudios" value="{{nivelEstudio.id}}">{{nivelEstudio.tipo}}</ion-option>
             </ion-select>
+          </ion-item>
+
+          <ion-item class="error" *ngIf="!slideOneForm.controls.idNivelEstudios.valid && (slideOneForm.controls.idNivelEstudios.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Selecciona tu nivel académico.</p>
           </ion-item>
 
           <div class="final_item"></div>
@@ -100,7 +146,7 @@
             Ubicación
           </ion-list-header>
 
-          <ion-item>
+          <ion-item [class.invalid]="!slideTwoForm.controls.pais.valid && (slideTwoForm.controls.pais.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-compass" md="md-compass" item-start></ion-icon>
             <ion-label floating>Pais</ion-label>
             <ion-select submitText="OK" formControlName="pais" cancelText="Cancelar" (ionChange)="countryChange($event)">
@@ -108,7 +154,12 @@
             </ion-select>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideTwoForm.controls.pais.valid && (slideTwoForm.controls.pais.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Selecciona tu país.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideTwoForm.controls.departamento.valid && (slideTwoForm.controls.departamento.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-map" md="md-map" item-start></ion-icon>
             <ion-label floating>Departamento</ion-label>
             <ion-select submitText="OK" formControlName="departamento" cancelText="Cancelar" (ionChange)="departmentChange($event)">
@@ -116,7 +167,12 @@
             </ion-select>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideTwoForm.controls.departamento.valid && (slideTwoForm.controls.departamento.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Selecciona tu departamento.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideTwoForm.controls.ciudad.valid && (slideTwoForm.controls.ciudad.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-navigate" md="md-navigate" item-start></ion-icon>
             <ion-label floating>Ciudad</ion-label>
             <ion-select submitText="OK" formControlName="ciudad" cancelText="Cancelar">
@@ -124,22 +180,42 @@
             </ion-select>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideTwoForm.controls.ciudad.valid && (slideTwoForm.controls.ciudad.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Selecciona tu ciudad.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideTwoForm.controls.direccion.valid && (slideTwoForm.controls.direccion.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-home" md="md-home" item-start></ion-icon>
             <ion-label floating>Dirección</ion-label>
             <ion-input type="text" formControlName="direccion"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideTwoForm.controls.direccion.valid && (slideTwoForm.controls.direccion.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa una dirección válida.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideTwoForm.controls.direccionAuxiliar.valid && (slideTwoForm.controls.direccionAuxiliar.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-information-circle" md="md-information-circle" item-start></ion-icon>
             <ion-label floating>Dirección auxiliar</ion-label>
             <ion-input type="text" formControlName="direccionAuxiliar"></ion-input>
           </ion-item>
 
-          <ion-item>
+          <ion-item class="error" *ngIf="!slideTwoForm.controls.direccionAuxiliar.valid && (slideTwoForm.controls.direccionAuxiliar.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa una dirección auxiliar válida.</p>
+          </ion-item>
+
+          <ion-item [class.invalid]="!slideTwoForm.controls.codigoPostal.valid && (slideTwoForm.controls.codigoPostal.dirty || submitAttempt || nextAttempt)">
             <ion-icon name="mail" item-start></ion-icon>
             <ion-label floating>Código postal</ion-label>
             <ion-input type="number" formControlName="codigoPostal"></ion-input>
+          </ion-item>
+
+          <ion-item class="error" *ngIf="!slideTwoForm.controls.codigoPostal.valid && (slideTwoForm.controls.codigoPostal.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Ingresa un código postal válido.</p>
           </ion-item>
 
           <div class="final_item"></div>
@@ -150,7 +226,7 @@
     </ion-slide>
 
     <ion-slide>
-      <p *ngIf="submitAttempt" style="color: #ea6153;">Por favor ingrese todos los datos necesarios</p>
+      <p *ngIf="submitAttempt || nextAttempt" style="color: #ea6153;">Por favor ingrese todos los datos necesarios</p>
 
       <ion-list no-lines>
         <form [formGroup]="slideThreeForm">
@@ -159,7 +235,7 @@
             Preferencias del café
           </ion-list-header>
 
-          <ion-item>
+          <ion-item [class.invalid]="!slideThreeForm.controls.idFrecuenciaCompraCafe.valid && (slideThreeForm.controls.idFrecuenciaCompraCafe.dirty || submitAttempt || nextAttempt)">
             <ion-icon ios="ios-refresh-circle" md="md-refresh-circle" item-start></ion-icon>
             <ion-label floating>Frecuencia de compra</ion-label>
             <ion-select submitText="OK" formControlName="idFrecuenciaCompraCafe" cancelText="Cancelar">
@@ -167,12 +243,36 @@
             </ion-select>
           </ion-item>
 
+          <ion-item class="error" *ngIf="!slideThreeForm.controls.idFrecuenciaCompraCafe.valid && (slideThreeForm.controls.idFrecuenciaCompraCafe.dirty || submitAttempt || nextAttempt)">
+            <ion-icon name="close" item-start></ion-icon>
+            <p>Selecciona una opción válida.</p>
+          </ion-item>
+
           <ng-template ngFor let-attribute let-l="last" [ngForOf]="fieldsOptions.attributes">
+            <ion-item [class.invalid]="!slideThreeForm.controls[attribute.nombreAtributo].valid && (slideThreeForm.controls[attribute.nombreAtributo].dirty || submitAttempt || nextAttempt)">
+              <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+              <ion-label floating>{{parse(attribute.nombreAtributo)}}</ion-label>
+
+              <ion-select *ngIf="attribute.opciones; else Input" submitText="OK" cancelText="Cancelar" [formControlName]="attribute.nombreAtributo">
+                <ion-option *ngFor="let option of attribute.opciones" value="{{option}}">{{option}}</ion-option>
+              </ion-select>
+
+              <ng-template #Input>
+                <ion-input type="text" [formControlName]="attribute.nombreAtributo"></ion-input>
+              </ng-template>
+
+            </ion-item>
+
+            <ion-item class="error" *ngIf="!slideThreeForm.controls[attribute.nombreAtributo].valid && (slideThreeForm.controls[attribute.nombreAtributo].dirty || submitAttempt || nextAttempt)">
+              <ion-icon name="close" item-start></ion-icon>
+              <p>Selecciona una opción válida.</p>
+            </ion-item>
+          </ng-template>
+
+          <!-- <ng-template ngFor let-attribute let-l="last" [ngForOf]="fieldsOptions.attributes">
               <ion-item>
                 <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
                 <ion-label floating>{{parse(attribute.nombreAtributo)}}</ion-label>
-
-                <!-- <div *ngIf="!attribute.opciones; then Select else Input"></div> -->
 
                 <ion-select *ngIf="attribute.opciones; else Input" [ngModelOptions]="{standalone: true}" [(ngModel)]="user[attribute.nombreAtributo]" submitText="OK" cancelText="Cancelar">
                   <ion-option *ngFor="let option of attribute.opciones" value="{{option}}">{{option}}</ion-option>
@@ -183,11 +283,11 @@
                 </ng-template>
 
               </ion-item>
-          </ng-template>
-
-          <div class="final_item"></div>
+          </ng-template> -->
 
           <button ion-button full color="primary" (click)="save()">Registrarse</button>
+
+          <div class="final_item"></div>
 
         </form>
       </ion-list>
