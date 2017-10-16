@@ -257,96 +257,41 @@ export class YourCoffeeWebServiceProvider {
       return Promise.resolve({'status': 'success', 'data': this._user});
     }
 
-    // if(!token) {
-    //   console.log(token, this._userToken);
-    //   if(this._userToken == null) {
-    //     this.storage.get('user-token').then((data) => {
-    //       console.log(data);
-    //       if (!data && data == null) {
-    //         console.log('hola');
-    //         return Promise.resolve({'status': 'error', 'data': null, 'message': 'Unauthenticated'});
-    //       } else {
-    //         token = data;
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token,
+    });
 
-    //         // let headers = new Headers({
-    //         //   'Accept': 'application/json',
-    //         //   'Content-Type': 'application/json',
-    //         //   'Authorization': 'Bearer ' + token,
-    //         // });
+    let options = new RequestOptions({ headers: headers });
 
-    //         // let options = new RequestOptions({ headers: headers });
+    return new Promise ((resolve, reject) => {
+      this.http.get(this.yourCoffeeUrl + '/user', options)
+        .map((res: Response) => res.json())
+        .subscribe(data => {
+          this._user = data.data;
+          this.storage.set('user-detail', this._user)
+          resolve(data);
+        },
+        (err) => {
+          reject(err);
+        });
+        // .catch(this.handleError);
+    });
+  }
 
-    //         // return new Promise ((resolve, reject) => {
-    //         //   this.http.get(this.yourCoffeeUrl + '/user', options)
-    //         //     .map((res: Response) => res.json())
-    //         //     .subscribe(data => {
-    //         //       this._user = data.data;
-    //         //       this.storage.set('user-detail', this._user)
-    //         //       resolve(data);
-    //         //     },
-    //         //     (err) => {
-    //         //       reject(err);
-    //         //     });
-    //         //     // .catch(this.handleError);
-    //         // });
+  /**
+   * Send a POST request to our signup endpoint with the data
+   * the user entered on the form.
+   */
+  register(userData) {
+    let headers = new Headers({'Accept': 'application/json', 'Content-Type': 'application/json'});
+    let options = new RequestOptions({ headers: headers });
 
-    //       }
-    //     });
-    //   } else {
-    //     token = this._userToken;
-
-    //     // let headers = new Headers({
-    //     //   'Accept': 'application/json',
-    //     //   'Content-Type': 'application/json',
-    //     //   'Authorization': 'Bearer ' + token,
-    //     // });
-
-    //     // let options = new RequestOptions({ headers: headers });
-
-    //     // return new Promise ((resolve, reject) => {
-    //     //   this.http.get(this.yourCoffeeUrl + '/user', options)
-    //     //     .map((res: Response) => res.json())
-    //     //     .subscribe(data => {
-    //     //       this._user = data.data;
-    //     //       this.storage.set('user-detail', this._user)
-    //     //       resolve(data);
-    //     //     },
-    //     //     (err) => {
-    //     //       reject(err);
-    //     //     });
-    //     //     // .catch(this.handleError);
-    //     // });
-    //   }
-    // } else {
-
-      let headers = new Headers({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-      });
-
-      let options = new RequestOptions({ headers: headers });
-
-      return new Promise ((resolve, reject) => {
-        this.http.get(this.yourCoffeeUrl + '/user', options)
-          .map((res: Response) => res.json())
-          .subscribe(data => {
-            this._user = data.data;
-            this.storage.set('user-detail', this._user)
-            resolve(data);
-          },
-          (err) => {
-            reject(err);
-          });
-          // .catch(this.handleError);
-      });
-    // }
-
-    // return Promise.resolve({'status': 'pending', 'data': this._user});
-
-    // return this.http.get(this.yourCoffeeUrl + '/user', options)
-    //        .map((res: Response) => res.json())
-    //        .catch(this.handleError);
+    return this.http.post(this.yourCoffeeUrl + "/register", userData, options)
+      // .do((res : Response ) => console.log(res.json()))
+      .map((res : Response ) => res.json())//.catch(this.handleError);;
+      .catch(this.handleError);
   }
 
   /**
