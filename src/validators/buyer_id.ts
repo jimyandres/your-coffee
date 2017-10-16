@@ -1,6 +1,6 @@
 import { FormControl } from '@angular/forms';
 
-export class buyerIdValidator {
+export class BuyerIdValidator {
 
   static isValid(control: FormControl): any {
 

@@ -1,7 +1,7 @@
 import { AbstractControl, FormControl, NG_VALIDATORS } from '@angular/forms';
 import { Directive, forwardRef, Attribute } from '@angular/core';
 
-export class buyerPassConfirmationValidator {
+export class BuyerPassConfirmationValidator {
 
   static isValid(control: FormControl): any {
     let password = control.root.value.password; // to get value in input tag
