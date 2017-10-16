@@ -17,7 +17,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class YourCoffeeWebServiceProvider {
 
-  // yourCoffeeUrl : string = "http://yourcoffee.us-west-2.elasticbeanstalk.com"; // for building app
+  // yourCoffeeUrl : string = "http://yourcoffee.us-west-2.elasticbeanstalk.com/api"; // for building app
 
   yourCoffeeUrl : string = "/api"; // for browser testing
 
