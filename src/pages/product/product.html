@@ -23,9 +23,11 @@
       <ion-list no-border>
         <ion-item-group>
           <ion-item>
-            <ion-slides pager loop autoplay="4000" zoom centeredSlides>
+            <ion-slides pager loop autoplay="4000" zoom="true" centeredSlides>
               <ion-slide style="background-color: transparent;" *ngFor="let slide of product.fotos">
-                <img [src]="slide.url">
+                <div class="swiper-zoom-container">
+                  <img [src]="slide.url">
+                </div>
               </ion-slide>
             </ion-slides>
           </ion-item>
