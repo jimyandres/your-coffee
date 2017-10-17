@@ -299,7 +299,7 @@
               <ion-label floating>{{parse(attribute.nombreAtributo)}}</ion-label>
 
               <ion-select *ngIf="attribute.opciones; else Input" submitText="OK" cancelText="Cancelar" [formControlName]="attribute.nombreAtributo">
-                <ion-option *ngFor="let option of attribute.opciones" value="{{option}}">{{option}}</ion-option>
+                <ion-option *ngFor="let option of attribute.opciones" value="{{option}}" [innerHTML]="option"></ion-option>
               </ion-select>
 
               <ng-template #Input>
