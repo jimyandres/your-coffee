@@ -30,8 +30,6 @@ import { HttpModule } from '@angular/http';
 import { Ionic2RatingModule } from 'ionic2-rating';
 import { MomentModule } from 'angular2-moment';
 
-import { UserProvider } from '../providers/user/user';
-
 @NgModule({
   declarations: [
     MyApp,
@@ -81,8 +79,7 @@ import { UserProvider } from '../providers/user/user';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    YourCoffeeWebServiceProvider,
-    UserProvider
+    YourCoffeeWebServiceProvider
   ]
 })
 

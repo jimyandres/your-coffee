@@ -1,5 +1,4 @@
-import { AbstractControl, FormControl, NG_VALIDATORS } from '@angular/forms';
-import { Directive, forwardRef, Attribute } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 export class BuyerPassConfirmationValidator {
 
