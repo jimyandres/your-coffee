@@ -4,6 +4,11 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Perfil</ion-title>
+    <ion-buttons ion-button icon-only right end>
+      <button ion-button icon-right (click)="updateProfile()">
+        Modificar
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -141,9 +146,8 @@
         <ion-item [class.invalid]="(!personalDataForm.controls.idNivelEstudios.valid && (personalDataForm.controls.idNivelEstudios.dirty || submitAttempt || nextAttempt)) || (errors && errors.idNivelEstudios)">
           <ion-icon ios="ios-school" md="md-school" item-start></ion-icon>
           <ion-label floating>Nivel de Estudios</ion-label>
-          {{personalDataForm.controls['idNivelEstudios'].setValue(user.data.idNivelEstudios)}}
           <ion-select formControlName="idNivelEstudios" submitText="OK" cancelText="Cancelar">
-            <ion-option *ngFor="let nivelEstudio of fieldsOptions.nivelEstudios" value="{{nivelEstudio.id}}"> {{nivelEstudio.tipo}}</ion-option>
+            <ion-option *ngFor="let nivelEstudio of fieldsOptions.nivelEstudios" ng-selected="user.data.idNivelEstudios == nivelEstudio.id" value="{{nivelEstudio.id}}"> {{nivelEstudio.tipo}}</ion-option>
           </ion-select>
         </ion-item>
 
@@ -155,77 +159,166 @@
           </ng-template>
         </ion-item>
 
+        <div class="final_item"></div>
+
       </ion-list>
     </form>
 
-    <!-- <form [formGroup]="slideOneForm"> -->
+    <form [formGroup]="locationForm">
 
-    <ion-list *ngSwitchCase="'location'" no-lines>
-      <ion-item>
-        <h2>Nombre de la finca</h2>
-        <p>{{provider.nombreFinca}}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Altura de la finca</h2>
-        <p>{{provider.alturaFinca}} m s. n. m.</p>
-      </ion-item>
-      <ion-item>
-        <h2>Extensión de la finca</h2>
-        <p>{{provider.extensionFinca}} ha</p>
-      </ion-item>
-      <ion-item>
-        <h2>Densidad de Siembra</h2>
-        <p>{{provider.densidad_siembra.tipo}}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Años del Cafetal</h2>
-        <p>{{provider.annosCafetal}}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Edad desde la última Zoca</h2>
-        <p>{{provider.edad_ultima_zoca.tipo}}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Variedad de café</h2>
-        <p *ngFor="let variedad of provider.variedades_cafe">{{variedad.tipo}}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Tipo de Beneficio / Beneficiado</h2>
-        <p>{{provider.tipo_beneficio.tipo}}</p>
-      </ion-item>
-      <ion-item>
-        <h2>Ecotopo</h2>
-        <p>{{provider.ecotopo.tipo}}</p>
-      </ion-item>
-    </ion-list>
+      <ion-list *ngSwitchCase="'location'" no-lines>
 
-    <ion-list *ngSwitchCase="'coffeePreferences'">
-      <ion-grid fixed>
-        <ion-row justify-content-between wrap>
-          <ion-col class="col-product" col-6 *ngFor="let product of products" (click)="itemTapped($event, product)">
-            <ion-card>
-              <img [src]="product.fotos['0'].url"/>
-              <ion-card-content>
-                <p>
-                  <b>${{product.precioEmpaque}}</b>
-                </p>
-                <p>{{product.nombre}}</p>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
+        <ion-list-header text-center text-uppercase>
+          Ubicación
+        </ion-list-header>
 
-        <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
-          <ion-infinite-scroll-content></ion-infinite-scroll-content>
-        </ion-infinite-scroll>
+        <ion-item [class.invalid]="(!locationForm.controls.pais.valid && (locationForm.controls.pais.dirty || submitAttempt || nextAttempt)) || (errors && errors.pais)">
+          <ion-icon ios="ios-compass" md="md-compass" item-start></ion-icon>
+          <ion-label floating>Pais</ion-label>
+          <ion-select submitText="OK" formControlName="pais" cancelText="Cancelar" (ionChange)="countryChange($event)">
+            <ion-option *ngFor="let pais of paises" value="{{pais}}">{{pais}}</ion-option>
+          </ion-select>
+        </ion-item>
 
-        <ion-row *ngIf="!products.length">
-          <ion-col align-self-center text-center>
-            <p>{{provider.nombres + " " + provider.apellidos}} aún no tiene productos disponibles.</p>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
+        <ion-item class="error" *ngIf="(!locationForm.controls.pais.valid && (locationForm.controls.pais.dirty || submitAttempt || nextAttempt)) || (errors && errors.pais)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.pais; else elseBlock">{{errors.pais[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Selecciona tu país.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!locationForm.controls.departamento.valid && (locationForm.controls.departamento.dirty || submitAttempt || nextAttempt)) || (errors && errors.departamento)">
+          <ion-icon ios="ios-map" md="md-map" item-start></ion-icon>
+          <ion-label floating>Departamento</ion-label>
+          <ion-select submitText="OK" formControlName="departamento" cancelText="Cancelar" (ionChange)="departmentChange($event)">
+            <ion-option *ngFor="let departamento of departamentos" value="{{departamento}}">{{departamento}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!locationForm.controls.departamento.valid && (locationForm.controls.departamento.dirty || submitAttempt || nextAttempt)) || (errors && errors.departamento)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.departamento; else elseBlock">{{errors.departamento[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Selecciona tu departamento.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!locationForm.controls.ciudad.valid && (locationForm.controls.ciudad.dirty || submitAttempt || nextAttempt)) || (errors && errors.ciudad)">
+          <ion-icon ios="ios-navigate" md="md-navigate" item-start></ion-icon>
+          <ion-label floating>Ciudad</ion-label>
+          <ion-select submitText="OK" formControlName="ciudad" cancelText="Cancelar">
+            <ion-option *ngFor="let ciudad of ciudades" value="{{ciudad}}">{{ciudad}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!locationForm.controls.ciudad.valid && (locationForm.controls.ciudad.dirty || submitAttempt || nextAttempt)) || (errors && errors.ciudad)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.ciudad; else elseBlock">{{errors.ciudad[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Selecciona tu ciudad.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!locationForm.controls.direccion.valid && (locationForm.controls.direccion.dirty || submitAttempt || nextAttempt)) || (errors && errors.direccion)">
+          <ion-icon ios="ios-home" md="md-home" item-start></ion-icon>
+          <ion-label floating>Dirección</ion-label>
+          <ion-input type="text" formControlName="direccion"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!locationForm.controls.direccion.valid && (locationForm.controls.direccion.dirty || submitAttempt || nextAttempt)) || (errors && errors.direccion)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.direccion; else elseBlock">{{errors.direccion[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa una dirección válida.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!locationForm.controls.direccionAuxiliar.valid && (locationForm.controls.direccionAuxiliar.dirty || submitAttempt || nextAttempt)) || (errors && errors.direccionAuxiliar)">
+          <ion-icon ios="ios-information-circle" md="md-information-circle" item-start></ion-icon>
+          <ion-label floating>Dirección auxiliar</ion-label>
+          <ion-input type="text" formControlName="direccionAuxiliar"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!locationForm.controls.direccionAuxiliar.valid && (locationForm.controls.direccionAuxiliar.dirty || submitAttempt || nextAttempt)) || (errors && errors.direccionAuxiliar)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.direccionAuxiliar; else elseBlock">{{errors.direccionAuxiliar[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa una dirección auxiliar válida.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!locationForm.controls.codigoPostal.valid && (locationForm.controls.codigoPostal.dirty || submitAttempt || nextAttempt)) || (errors && errors.codigoPostal)">
+          <ion-icon name="mail" item-start></ion-icon>
+          <ion-label floating>Código postal</ion-label>
+          <ion-input type="number" formControlName="codigoPostal"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!locationForm.controls.codigoPostal.valid && (locationForm.controls.codigoPostal.dirty || submitAttempt || nextAttempt)) || (errors && errors.codigoPostal)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.codigoPostal; else elseBlock">{{errors.codigoPostal[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa un código postal válido.</p>
+          </ng-template>
+        </ion-item>
+
+        <div class="final_item"></div>
+
+      </ion-list>
+    </form>
+
+
+    <form [formGroup]="coffeePreferencesForm">
+      <ion-list *ngSwitchCase="'coffeePreferences'" no-lines>
+
+        <ion-list-header text-center text-uppercase>
+          Preferencias del café
+        </ion-list-header>
+
+        <ion-item [class.invalid]="(!coffeePreferencesForm.controls.idFrecuenciaCompraCafe.valid && (coffeePreferencesForm.controls.idFrecuenciaCompraCafe.dirty || submitAttempt || nextAttempt)) || (errors && errors.idFrecuenciaCompraCafe)">
+          <ion-icon ios="ios-refresh-circle" md="md-refresh-circle" item-start></ion-icon>
+          <ion-label floating>Frecuencia de compra</ion-label>
+          <ion-select submitText="OK" formControlName="idFrecuenciaCompraCafe" cancelText="Cancelar">
+            <ion-option *ngFor="let frecuencia of fieldsOptions.frecuenciaCompraCafe" value="{{frecuencia.id}}">{{frecuencia.tipo}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- <ion-item class="error" *ngIf="(!coffeePreferencesForm.controls.idFrecuenciaCompraCafe.valid && (coffeePreferencesForm.controls.idFrecuenciaCompraCafe.dirty || submitAttempt || nextAttempt)) || (errors && errors.idFrecuenciaCompraCafe)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.idFrecuenciaCompraCafe; else elseBlock">{{errors.idFrecuenciaCompraCafe[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Selecciona una opción válida.</p>
+          </ng-template>
+        </ion-item>
+
+        <ng-template ngFor let-attribute let-l="last" [ngForOf]="fieldsOptions.attributes">
+          <ion-item [class.invalid]="(!coffeePreferencesForm.controls[attribute.nombreAtributo].valid && (coffeePreferencesForm.controls[attribute.nombreAtributo].dirty || submitAttempt || nextAttempt)) || (errors && errors[attribute.nombreAtributo])">
+            <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+            <ion-label floating>{{parse(attribute.nombreAtributo)}}</ion-label>
+
+            <ion-select *ngIf="attribute.opciones; else Input" submitText="OK" cancelText="Cancelar" [formControlName]="attribute.nombreAtributo">
+              <ion-option *ngFor="let option of attribute.opciones" value="{{option}}" [innerHTML]="option"></ion-option>
+            </ion-select>
+
+            <ng-template #Input>
+              <ion-input type="text" [formControlName]="attribute.nombreAtributo"></ion-input>
+            </ng-template>
+
+          </ion-item>
+
+          <ion-item class="error" *ngIf="(!coffeePreferencesForm.controls[attribute.nombreAtributo].valid && (coffeePreferencesForm.controls[attribute.nombreAtributo].dirty || submitAttempt || nextAttempt)) || (errors && errors[attribute.nombreAtributo])">
+            <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors[attribute.nombreAtributo]; else elseBlock">{{errors[attribute.nombreAtributo][0]}}</p>
+           <ng-template #elseBlock>
+            <p>Selecciona una opción válida.</p>
+          </ng-template>
+          </ion-item>
+        </ng-template> -->
+
+        <div class="final_item"></div>
+
+      </ion-list>
+    </form>
 
   </div>
 
