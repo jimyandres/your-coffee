@@ -10,4 +10,232 @@
 
 <ion-content padding>
 
+  <!-- Segment for Provider details -->
+  <div>
+    <ion-segment [(ngModel)]="profileSegment" color="primary">
+      <ion-segment-button value="personalData" text-wrap>
+        Cuenta
+      </ion-segment-button>
+      <ion-segment-button value="location">
+        Ubicación
+      </ion-segment-button>
+      <ion-segment-button value="coffeePreferences">
+        Preferencias
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div *ngIf="user.data" [ngSwitch]="profileSegment">
+
+    <form [formGroup]="personalDataForm">
+      <ion-list *ngSwitchCase="'personalData'">
+
+        <ion-list-header text-center text-uppercase>
+          Información Personal
+        </ion-list-header>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.id.valid && (personalDataForm.controls.id.dirty || submitAttempt || nextAttempt)) || (errors && errors.id)">
+          <ion-icon ios="ios-finger-print" md="md-finger-print" item-start></ion-icon>
+          <ion-label floating>Número de documento</ion-label>
+          <ion-input type="text" formControlName="id" value="{{user.data.id}}"></ion-input>
+          <!-- <ion-icon item-end name="close" color="danger" *ngIf="!slideOneForm.controls.id.valid && (slideOneForm.controls.id.dirty || submitAttempt)"></ion-icon> -->
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.id.valid && (personalDataForm.controls.id.dirty || submitAttempt || nextAttempt)) || (errors && errors.id)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.id; else elseBlock">{{errors.id[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa un número de documento válido.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.nombres.valid && (personalDataForm.controls.nombres.dirty || submitAttempt || nextAttempt)) || (errors && errors.nombres)">
+          <ion-icon ios="ios-contact" md="md-contact" item-start></ion-icon>
+          <ion-label floating>Nombres</ion-label>
+          <ion-input type="text" formControlName="nombres" value="{{user.data.nombres}}"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.nombres.valid && (personalDataForm.controls.nombres.dirty || submitAttempt || nextAttempt)) || (errors && errors.nombres)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.nombres; else elseBlock">{{errors.nombres[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa un nombre válido.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.apellidos.valid && (personalDataForm.controls.apellidos.dirty || submitAttempt || nextAttempt)) || (errors && errors.apellidos)">
+          <ion-icon ios="ios-contact" md="md-contact" item-start></ion-icon>
+          <ion-label floating>Apellidos</ion-label>
+          <ion-input type="text" formControlName="apellidos" value="{{user.data.apellidos}}"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.apellidos.valid && (personalDataForm.controls.apellidos.dirty || submitAttempt || nextAttempt)) || (errors && errors.apellidos)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.apellidos; else elseBlock">{{errors.apellidos[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa un apellido válido.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.email.valid && (personalDataForm.controls.email.dirty || submitAttempt || nextAttempt)) || (errors && errors.email)">
+          <ion-icon ios="ios-mail" md="md-mail" item-start></ion-icon>
+          <ion-label floating>Tu e-mail</ion-label>
+          <ion-input type="email" formControlName="email" email value="{{user.data.correoElectronico}}"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.email.valid && (personalDataForm.controls.email.dirty || submitAttempt || nextAttempt)) || (errors && errors.email)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.email; else elseBlock">{{errors.email[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa un correo válido.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.password.valid && (personalDataForm.controls.password.dirty || submitAttempt || nextAttempt)) || (errors && errors.password)">
+          <ion-icon ios="ios-lock" md="md-lock" item-start></ion-icon>
+          <ion-label floating>Contraseña</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <p text-wrap>
+            Tu contraseña debe ser de por lo menos de 8 caracteres, incluyendo mayúsculas y números.
+          </p>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.password.valid && (personalDataForm.controls.password.dirty || submitAttempt || nextAttempt)) || (errors && errors.password)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.password; else elseBlock">{{errors.password[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa una contraseña válida.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.password_confirmation.valid && (personalDataForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt)) || (errors && errors.password_confirmation)">
+          <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
+          <ion-label floating>Confirmar contraseña</ion-label>
+          <ion-input type="password" formControlName="password_confirmation"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.password_confirmation.valid && (personalDataForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt)) || (errors && errors.password_confirmation)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.password_confirmation; else elseBlock">{{errors.password_confirmation[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Las contraseñas no coinciden.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.telefono.valid && (personalDataForm.controls.telefono.dirty || submitAttempt || nextAttempt)) || (errors && errors.telefono)">
+          <ion-icon ios="ios-call" md="md-call" item-start></ion-icon>
+          <ion-label floating>Teléfono</ion-label>
+          <ion-input type="number" formControlName="telefono" value="{{user.data.telefono}}"></ion-input>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.telefono.valid && (personalDataForm.controls.telefono.dirty || submitAttempt || nextAttempt)) || (errors && errors.telefono)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.telefono; else elseBlock">{{errors.telefono[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Ingresa un teléfono válido.</p>
+          </ng-template>
+        </ion-item>
+
+        <ion-item [class.invalid]="(!personalDataForm.controls.idNivelEstudios.valid && (personalDataForm.controls.idNivelEstudios.dirty || submitAttempt || nextAttempt)) || (errors && errors.idNivelEstudios)">
+          <ion-icon ios="ios-school" md="md-school" item-start></ion-icon>
+          <ion-label floating>Nivel de Estudios</ion-label>
+          {{personalDataForm.controls['idNivelEstudios'].setValue(user.data.idNivelEstudios)}}
+          <ion-select formControlName="idNivelEstudios" submitText="OK" cancelText="Cancelar">
+            <ion-option *ngFor="let nivelEstudio of fieldsOptions.nivelEstudios" value="{{nivelEstudio.id}}"> {{nivelEstudio.tipo}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.idNivelEstudios.valid && (personalDataForm.controls.idNivelEstudios.dirty || submitAttempt || nextAttempt)) || (errors && errors.idNivelEstudios)">
+          <ion-icon name="close" item-start></ion-icon>
+          <p *ngIf="errors && errors.idNivelEstudios; else elseBlock">{{errors.idNivelEstudios[0]}}</p>
+          <ng-template #elseBlock>
+            <p>Selecciona tu nivel académico.</p>
+          </ng-template>
+        </ion-item>
+
+      </ion-list>
+    </form>
+
+    <!-- <form [formGroup]="slideOneForm"> -->
+
+    <ion-list *ngSwitchCase="'location'" no-lines>
+      <ion-item>
+        <h2>Nombre de la finca</h2>
+        <p>{{provider.nombreFinca}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Altura de la finca</h2>
+        <p>{{provider.alturaFinca}} m s. n. m.</p>
+      </ion-item>
+      <ion-item>
+        <h2>Extensión de la finca</h2>
+        <p>{{provider.extensionFinca}} ha</p>
+      </ion-item>
+      <ion-item>
+        <h2>Densidad de Siembra</h2>
+        <p>{{provider.densidad_siembra.tipo}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Años del Cafetal</h2>
+        <p>{{provider.annosCafetal}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Edad desde la última Zoca</h2>
+        <p>{{provider.edad_ultima_zoca.tipo}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Variedad de café</h2>
+        <p *ngFor="let variedad of provider.variedades_cafe">{{variedad.tipo}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Tipo de Beneficio / Beneficiado</h2>
+        <p>{{provider.tipo_beneficio.tipo}}</p>
+      </ion-item>
+      <ion-item>
+        <h2>Ecotopo</h2>
+        <p>{{provider.ecotopo.tipo}}</p>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'coffeePreferences'">
+      <ion-grid fixed>
+        <ion-row justify-content-between wrap>
+          <ion-col class="col-product" col-6 *ngFor="let product of products" (click)="itemTapped($event, product)">
+            <ion-card>
+              <img [src]="product.fotos['0'].url"/>
+              <ion-card-content>
+                <p>
+                  <b>${{product.precioEmpaque}}</b>
+                </p>
+                <p>{{product.nombre}}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+
+        <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+        <ion-row *ngIf="!products.length">
+          <ion-col align-self-center text-center>
+            <p>{{provider.nombres + " " + provider.apellidos}} aún no tiene productos disponibles.</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+  </div>
+
+  <ion-fab right bottom>
+    <button ion-fab color="danger_red" (click)="deleteAccount()"><ion-icon ios="ios-trash" md="md-trash"></ion-icon></button>
+    <!-- <button ion-fab (click)="deleteAccount()"><ion-icon name="add"></ion-icon></button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="deleteAccount()"><ion-icon name="trash"></ion-icon></button>
+      <button ion-fab (click)="deleteAccount()"><ion-icon name="md-create"></ion-icon></button>
+    </ion-fab-list> -->
+  </ion-fab>
+
 </ion-content>
