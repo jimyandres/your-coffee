@@ -55,7 +55,7 @@ export class LoginPage {
           this.yourCoffeeService.setToken(res.token);
           // this.user._loggedIn(res);
           // let user = this.checkUser(res.token);
-          this.yourCoffeeService.user(res.token).then((user: any) => {
+          this.yourCoffeeService.user(res.token, true).then((user: any) => {
             // console.log(user);
             this.presentToast('¡Bienvenido ' + user.data.nombres + ' ' + user.data.apellidos + '!', 'success');
             this.events.publish('auth:login', user);

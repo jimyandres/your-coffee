@@ -146,7 +146,7 @@ export class SignUpPage {
         (res) => {
           if(res.status == 'success') {
             this.yourCoffeeService.setToken(res.token);
-            this.yourCoffeeService.user(res.token).then((user: any) => {
+            this.yourCoffeeService.user(res.token, true).then((user: any) => {
               // console.log(user);
               this.loading.dismiss();
               this.presentToast('¡Bienvenido ' + user.data.nombres + ' ' + user.data.apellidos + '!', 'success');
