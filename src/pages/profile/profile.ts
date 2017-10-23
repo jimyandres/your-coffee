@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Refresher } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -29,6 +29,7 @@ export class ProfilePage {
   loading: any;
   token: any;
   user: any = {};
+  updateData: any = {};
   profileSegment: string = '';
   fieldsOptions: any = {};
   paises: any = [];
@@ -45,11 +46,17 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private yourCoffeeService: YourCoffeeWebServiceProvider,
               public loadingCtrl: LoadingController, public formBuilder: FormBuilder,
-              public storage: Storage) {
+              public storage: Storage, private events: Events) {
     this.showLoader();
-    this.reloadUser();
+    // this.loadUser();
+    
+    this.fieldsOptions = navParams.get('field_options');
+    this.user = navParams.get('user');
+
+    // console.log(this.fieldsOptions);
+
     this.profileSegment = 'personalData';
-    this.personalDataForm = this.formBuilder.group({
+    this.personalDataForm = formBuilder.group({
       id: ['', Validators.compose([
         Validators.minLength(8),
         Validators.maxLength(10),
@@ -79,7 +86,7 @@ export class ProfilePage {
         Validators.maxLength(10),
         Validators.pattern('^\\d{7,10}$'),
         Validators.required])],
-      idNivelEstudios: ['', Validators.compose([
+      idNivelEstudios: [this.user.idNivelEstudios, Validators.compose([
         Validators.required])]
     });
 
@@ -103,18 +110,23 @@ export class ProfilePage {
         Validators.pattern('^\\d{0,10}$'),
         Validators.required])]
     });
-
+    
     let coffeePreferencesFields = {
       idFrecuenciaCompraCafe: ['', Validators.compose([
         Validators.required])],
     };
 
     let attrs = this.fieldsOptions.attributes;
-    // for( var i=0; i<attrs.length; i++) {
-    //   coffeePreferencesFields[attrs[i].nombreAtributo] = [''];
-    // }
+    for( var i=0; i<attrs.length; i++) {
+      coffeePreferencesFields[attrs[i].nombreAtributo] = [''];
+    }
 
     this.coffeePreferencesForm = formBuilder.group(coffeePreferencesFields);
+
+    this.departments(this.user.direccion.pais, true);
+    this.cities(this.user.direccion.departamento, true);
+
+    this.loading.dismiss();
   }
 
   ionViewDidLoad() {
@@ -124,7 +136,8 @@ export class ProfilePage {
 
   doRefresh(refresher: Refresher) {
     this.refreshing = true;
-    this.reloadUser(refresher);
+    this.loadFields();
+    this.loadUser(refresher);
   }
 
   showLoader(message:string = 'Cargando...') {
@@ -132,6 +145,11 @@ export class ProfilePage {
       content: message
     });
     this.loading.present();
+  }
+
+  parse(data) {
+    var sub = (data.charAt(0).toUpperCase() + data.substr(1)).match(/[A-Z][a-z]+/g);
+    return sub.join(' ');
   }
 
   getValues(obj) {
@@ -147,26 +165,38 @@ export class ProfilePage {
     });
   }
 
-  departments(country) {
-    this.showLoader();
+  departments(country, init:boolean=false) {
+    if(!init) {
+      this.showLoader();
+    }
     this.yourCoffeeService.departments(country).subscribe((data) => {
-      this.loading.dismiss();
+      if(!init) {
+        this.loading.dismiss();
+      }
       this.departamentos = this.getValues(data);
     },
     (err) => {
-      this.loading.dismiss();
+      if(!init) {
+        this.loading.dismiss();
+      }
       console.log(err);
     });
   }
 
-  cities(department) {
-    this.showLoader();
+  cities(department, init:boolean=false) {
+    if(!init) {
+      this.showLoader();
+    }
     this.yourCoffeeService.cities(department).subscribe((data) => {
-      this.loading.dismiss();
+      if(!init) {
+        this.loading.dismiss();
+      }
       this.ciudades = this.getValues(data);
     },
     (err) => {
-      this.loading.dismiss();
+      if(!init) {
+        this.loading.dismiss();
+      }
       console.log(err);
     });
   }
@@ -192,44 +222,53 @@ export class ProfilePage {
     }
   }
 
-  reloadUser(refresher?: Refresher) {
-    return Promise.all([this.storage.ready().then(() => {
-      this.user = this.storage.get('user-token').then((token) => {
-        if(token != null) {
-          this.yourCoffeeService.user(token).then(
-            (userInfo) => {
-              this.user = userInfo;
-
-              if (this.user.data == null) {
-                  this.navCtrl.setRoot(LoginPage);
-              }
-
-              if(refresher && this.refreshing) {
-                refresher.complete();
-                this.refreshing = false;
-              } else {
-                this.loading.dismiss();
-              }
-            },
-            (err) => {
-              console.log(err);
-              if(refresher && this.refreshing) {
-                  refresher.cancel();
-                  this.refreshing = false;
-              } else {
-                  this.loading.dismiss();
-              }
-            }
-          );
-        }
-      });
-    }),
+  loadFields() {
     this.yourCoffeeService.getRegister().subscribe((data) => {
       this.fieldsOptions = data;
     },
     (err) => {
       console.log(err);
-    })]);
+    });
+  }
+
+  loadUser(refresher?: Refresher) {
+    let reload = false;
+    if(refresher) {
+      reload = true;
+    }
+    this.storage.get('user-token').then((token) => {
+      if(token) {
+        this.yourCoffeeService.user(token, reload).then(
+          (userInfo:any) => {
+            this.user = userInfo.data;
+
+            if (this.user == null) {
+                this.events.publish('auth:logout', {'data': null});
+                this.navCtrl.setRoot(LoginPage);
+            }
+
+            this.departments(this.user.direccion.pais, true);
+            this.cities(this.user.direccion.departamento, true);
+
+            if(refresher && this.refreshing) {
+              refresher.complete();
+              this.refreshing = false;
+            } else {
+              this.loading.dismiss();
+            }
+          },
+          (err) => {
+            console.log(err);
+            if(refresher && this.refreshing) {
+                refresher.cancel();
+                this.refreshing = false;
+            } else {
+                this.loading.dismiss();
+            }
+          }
+        );
+      }
+    });
   }
 
   deleteAccount() {
@@ -238,6 +277,8 @@ export class ProfilePage {
 
   updateProfile() {
     console.log('Updating Account');
+    this.updateData = Object.assign(this.updateData, this.personalDataForm.value, this.locationForm.value, this.coffeePreferencesForm.value);
+    console.log(this.updateData);
   }
 
 }
