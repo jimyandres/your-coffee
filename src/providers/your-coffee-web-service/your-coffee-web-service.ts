@@ -38,14 +38,14 @@ export class YourCoffeeWebServiceProvider {
       this._userToken = null;
       // console.log(this._userToken);
     });
-    // storage.get('user-detail').then((user) => {
-    //   this._user = user;
-    //   console.log(this._user);
-    // },
-    // (err) => {
-    //   this._user = null;
-    //   console.log(this._user);
-    // });
+    storage.get('user-detail').then((user) => {
+      this._user = user;
+      // console.log(this._user);
+    },
+    (err) => {
+      this._user = null;
+      // console.log(this._user);
+    });
   }
 
   handleError (error: Response | any) {
@@ -251,9 +251,9 @@ export class YourCoffeeWebServiceProvider {
     this.storage.set('user-detail', null);
   }
 
-  user(token) {
+  user(token, reload:boolean = false) {
 
-    if (this._user) {
+    if (this._user && !reload) {
       return Promise.resolve({'status': 'success', 'data': this._user});
     }
 
