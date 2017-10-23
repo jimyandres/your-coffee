@@ -60,7 +60,7 @@ export class MyApp {
                 this.user = this.storage.get('user-token').then((token) => {
                     // console.log(token);
                     if(token != null) {
-                        this.yourCoffeeService.user(token).then((user) => {
+                        this.yourCoffeeService.user(token, true).then((user) => {
                             // console.log(user);
                             this.user = user;
                             // console.log(this.user);
@@ -112,13 +112,32 @@ export class MyApp {
     }
 
     openPage(page) {
+        let params:any = {};
         if(page == 'Logout') {
             this.logOut();
             page = HomePage;
+            this.nav.setRoot(page, params);
+        } else if(page == ProfilePage) {
+            this.yourCoffeeService.getRegister().subscribe((data) => {
+              params.field_options = data;
+              params.user = this.user.data;
+              // console.log(params);
+              this.nav.setRoot(page, params);
+            },
+            (err) => {
+              console.log(err);
+              this.nav.setRoot(page, params);
+            });
+        } else {
+            this.nav.setRoot(page, params);
         }
         // Reset the content nav to have just this page
         // we wouldn't want the back button to show in this scenario
-        this.nav.setRoot(page);
+        // console.log(wait);
+        // while(wait) {
+        //     console.log(wait);
+        // }
+        // this.nav.setRoot(page, params);
     }
 
     searchPage() {
