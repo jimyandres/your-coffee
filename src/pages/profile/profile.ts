@@ -70,16 +70,14 @@ export class ProfilePage {
         Validators.maxLength(45),
         Validators.pattern('^[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*$'),
         Validators.required])],
-      email: ['', Validators.compose([
+      correoElectronico: ['', Validators.compose([
         Validators.maxLength(45),
         Validators.required])],
       password: ['', Validators.compose([
         Validators.minLength(8),
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$'),
-        Validators.required])],
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$')])],
       password_confirmation: ['', Validators.compose([
         Validators.minLength(8),
-        Validators.required,
         BuyerPassConfirmationValidator.isValid])],
       telefono: ['', Validators.compose([
         Validators.minLength(7),
@@ -275,9 +273,17 @@ export class ProfilePage {
     console.log('Deleting Account');
   }
 
+  fixField() {
+    this.updateData.contraseña = this.updateData.password;
+    delete this.updateData.password;
+    this.updateData.contraseña_confirmation = this.updateData.password_confirmation;
+    delete this.updateData.password_confirmation;
+  }
+
   updateProfile() {
     console.log('Updating Account');
     this.updateData = Object.assign(this.updateData, this.personalDataForm.value, this.locationForm.value, this.coffeePreferencesForm.value);
+    this.fixField();
     console.log(this.updateData);
   }
 

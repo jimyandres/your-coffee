@@ -88,21 +88,21 @@
           </ng-template>
         </ion-item>
 
-        <ion-item [class.invalid]="(!personalDataForm.controls.email.valid && (personalDataForm.controls.email.dirty || submitAttempt || nextAttempt)) || (errors && errors.email)">
+        <ion-item [class.invalid]="(!personalDataForm.controls.correoElectronico.valid && (personalDataForm.controls.correoElectronico.dirty || submitAttempt || nextAttempt)) || (errors && errors.correoElectronico)">
           <ion-icon ios="ios-mail" md="md-mail" item-start></ion-icon>
           <ion-label floating>Tu e-mail</ion-label>
-          <ion-input type="email" formControlName="email" email [(ngModel)]="user.correoElectronico">></ion-input>
+          <ion-input type="email" formControlName="correoElectronico" email [(ngModel)]="user.correoElectronico">></ion-input>
         </ion-item>
 
-        <ion-item class="error" *ngIf="(!personalDataForm.controls.email.valid && (personalDataForm.controls.email.dirty || submitAttempt || nextAttempt)) || (errors && errors.email)">
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.correoElectronico.valid && (personalDataForm.controls.correoElectronico.dirty || submitAttempt || nextAttempt)) || (errors && errors.correoElectronico)">
           <ion-icon name="close" item-start></ion-icon>
-          <p *ngIf="errors && errors.email; else elseBlock">{{errors.email[0]}}</p>
+          <p *ngIf="errors && errors.correoElectronico; else elseBlock">{{errors.correoElectronico[0]}}</p>
           <ng-template #elseBlock>
             <p>Ingresa un correo válido.</p>
           </ng-template>
         </ion-item>
 
-        <ion-item [class.invalid]="(!personalDataForm.controls.password.valid && (personalDataForm.controls.password.dirty || submitAttempt || nextAttempt)) || (errors && errors.password)">
+        <ion-item [class.invalid]="(!personalDataForm.controls.password.valid && (personalDataForm.controls.password.dirty || submitAttempt || nextAttempt))">
           <ion-icon ios="ios-lock" md="md-lock" item-start></ion-icon>
           <ion-label floating>Contraseña</ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
@@ -113,7 +113,7 @@
           </p>
         </ion-item>
 
-        <ion-item class="error" *ngIf="(!personalDataForm.controls.password.valid && (personalDataForm.controls.password.dirty || submitAttempt || nextAttempt)) || (errors && errors.password)">
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.password.valid && (personalDataForm.controls.password.dirty || submitAttempt || nextAttempt))">
           <ion-icon name="close" item-start></ion-icon>
           <p *ngIf="errors && errors.password; else elseBlock">{{errors.password[0]}}</p>
           <ng-template #elseBlock>
@@ -121,18 +121,18 @@
           </ng-template>
         </ion-item>
 
-        <ion-item [class.invalid]="(!personalDataForm.controls.password_confirmation.valid && (personalDataForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt)) || (errors && errors.password_confirmation)">
+        <ion-item [class.invalid]="(!personalDataForm.controls.password_confirmation.valid && (personalDataForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt))">
           <ion-icon ios="ios-checkmark" md="md-checkmark" item-start></ion-icon>
           <ion-label floating>Confirmar contraseña</ion-label>
           <ion-input type="password" formControlName="password_confirmation"></ion-input>
         </ion-item>
 
-        <ion-item class="error" *ngIf="(!personalDataForm.controls.password_confirmation.valid && (personalDataForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt)) || (errors && errors.password_confirmation)">
+        <ion-item class="error" *ngIf="(!personalDataForm.controls.password_confirmation.valid && (personalDataForm.controls.password_confirmation.dirty || submitAttempt || nextAttempt))">
           <ion-icon name="close" item-start></ion-icon>
-          <p *ngIf="errors && errors.password_confirmation; else elseBlock">{{errors.password_confirmation[0]}}</p>
-          <ng-template #elseBlock>
+          <!-- <p *ngIf="errors && errors.password_confirmation; else elseBlock">{{errors.password_confirmation[0]}}</p> -->
+          <!-- <ng-template #elseBlock> -->
             <p>Las contraseñas no coinciden.</p>
-          </ng-template>
+          <!-- </ng-template> -->
         </ion-item>
 
         <ion-item [class.invalid]="(!personalDataForm.controls.telefono.valid && (personalDataForm.controls.telefono.dirty || submitAttempt || nextAttempt)) || (errors && errors.telefono)">
