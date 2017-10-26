@@ -10,20 +10,10 @@
       </button>
     </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-
-<ion-content padding>
-
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content
-      pullingIcon="refresh">
-    </ion-refresher-content>
-  </ion-refresher>
 
   <!-- Segment for Provider details -->
-  <div>
-    <ion-segment [(ngModel)]="profileSegment" color="primary">
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="profileSegment" color="light">
       <ion-segment-button value="personalData" text-wrap>
         Cuenta
       </ion-segment-button>
@@ -34,7 +24,17 @@
         Preferencias
       </ion-segment-button>
     </ion-segment>
-  </div>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="refresh">
+    </ion-refresher-content>
+  </ion-refresher>
 
   <div *ngIf="user" [ngSwitch]="profileSegment">
 
