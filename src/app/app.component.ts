@@ -109,6 +109,10 @@ export class MyApp {
         this.events.subscribe('auth:logout', (data) => {
             this.user = data;
         });
+
+        this.events.subscribe('auth:update', (data) => {
+            this.user = data;
+        });
     }
 
     openPage(page) {
