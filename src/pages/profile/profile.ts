@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Refresher } from 'ionic-angular';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { YourCoffeeWebServiceProvider } from "../../providers/your-coffee-web-service/your-coffee-web-service";
@@ -46,10 +46,10 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private yourCoffeeService: YourCoffeeWebServiceProvider,
               public loadingCtrl: LoadingController, public formBuilder: FormBuilder,
-              public storage: Storage, private events: Events) {
+              public storage: Storage, private events: Events, public toastCtrl: ToastController) {
     this.showLoader();
     // this.loadUser();
-    
+
     this.fieldsOptions = navParams.get('field_options');
     this.user = navParams.get('user');
 
@@ -57,20 +57,20 @@ export class ProfilePage {
 
     this.profileSegment = 'personalData';
     this.personalDataForm = formBuilder.group({
-      id: ['', Validators.compose([
+      id: [this.user.id, Validators.compose([
         Validators.minLength(8),
         Validators.maxLength(10),
         Validators.pattern('^(\\d{8}|\\d{10})$'),
         Validators.required])],
-      nombres: ['', Validators.compose([
+      nombres: [this.user.nombres, Validators.compose([
         Validators.maxLength(45),
         Validators.pattern('^[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*$'),
         Validators.required])],
-      apellidos: ['', Validators.compose([
+      apellidos: [this.user.apellidos, Validators.compose([
         Validators.maxLength(45),
         Validators.pattern('^[a-zA-ZÀ-ž][\\sa-zA-ZÀ-ž]*$'),
         Validators.required])],
-      correoElectronico: ['', Validators.compose([
+      correoElectronico: [this.user.correoElectronico, Validators.compose([
         Validators.maxLength(45),
         Validators.required])],
       password: ['', Validators.compose([
@@ -79,7 +79,7 @@ export class ProfilePage {
       password_confirmation: ['', Validators.compose([
         Validators.minLength(8),
         BuyerPassConfirmationValidator.isValid])],
-      telefono: ['', Validators.compose([
+      telefono: [this.user.telefono, Validators.compose([
         Validators.minLength(7),
         Validators.maxLength(10),
         Validators.pattern('^\\d{7,10}$'),
@@ -89,34 +89,34 @@ export class ProfilePage {
     });
 
     this.locationForm = formBuilder.group({
-      pais: ['', Validators.compose([
+      pais: [this.user.direccion.pais, Validators.compose([
         Validators.maxLength(45),
         Validators.required])],
-      departamento: ['', Validators.compose([
+      departamento: [this.user.direccion.departamento, Validators.compose([
         Validators.maxLength(45),
         Validators.required])],
-      ciudad: ['', Validators.compose([
+      ciudad: [this.user.direccion.ciudad, Validators.compose([
         Validators.maxLength(45),
         Validators.required])],
-      direccion: ['', Validators.compose([
+      direccion: [this.user.direccion.direccion, Validators.compose([
         Validators.maxLength(60),
         Validators.required])],
-      direccionAuxiliar: ['', Validators.compose([
+      direccionAuxiliar: [this.user.direccion.direccionAuxiliar, Validators.compose([
         Validators.maxLength(60)])],
-      codigoPostal: ['', Validators.compose([
+      codigoPostal: [this.user.direccion.codigoPostal, Validators.compose([
         Validators.maxLength(10),
         Validators.pattern('^\\d{0,10}$'),
         Validators.required])]
     });
-    
+
     let coffeePreferencesFields = {
-      idFrecuenciaCompraCafe: ['', Validators.compose([
+      idFrecuenciaCompraCafe: [this.user.frecuencia_compra_cafe.id, Validators.compose([
         Validators.required])],
     };
 
     let attrs = this.fieldsOptions.attributes;
     for( var i=0; i<attrs.length; i++) {
-      coffeePreferencesFields[attrs[i].nombreAtributo] = [''];
+      coffeePreferencesFields[attrs[i].nombreAtributo] = [this.user.atributos[i].pivot.valorAtributo];
     }
 
     this.coffeePreferencesForm = formBuilder.group(coffeePreferencesFields);
@@ -136,6 +136,17 @@ export class ProfilePage {
     this.refreshing = true;
     this.loadFields();
     this.loadUser(refresher);
+  }
+
+  presentToast(msg?: string, status?: string) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      cssClass: status,
+      showCloseButton: true,
+      closeButtonText: 'Ok',
+      duration: 6000
+    });
+    toast.present();
   }
 
   showLoader(message:string = 'Cargando...') {
@@ -231,7 +242,7 @@ export class ProfilePage {
 
   loadUser(refresher?: Refresher) {
     let reload = false;
-    if(refresher) {
+    if(refresher || this.refreshing) {
       reload = true;
     }
     this.storage.get('user-token').then((token) => {
@@ -239,6 +250,7 @@ export class ProfilePage {
         this.yourCoffeeService.user(token, reload).then(
           (userInfo:any) => {
             this.user = userInfo.data;
+            this.events.publish('auth:update', { 'status': 'success', 'data': this.user});
 
             if (this.user == null) {
                 this.events.publish('auth:logout', {'data': null});
@@ -250,19 +262,19 @@ export class ProfilePage {
 
             if(refresher && this.refreshing) {
               refresher.complete();
-              this.refreshing = false;
             } else {
               this.loading.dismiss();
             }
+            this.refreshing = false;
           },
           (err) => {
             console.log(err);
             if(refresher && this.refreshing) {
                 refresher.cancel();
-                this.refreshing = false;
             } else {
                 this.loading.dismiss();
             }
+            this.refreshing = false;
           }
         );
       }
@@ -281,10 +293,32 @@ export class ProfilePage {
   }
 
   updateProfile() {
-    console.log('Updating Account');
+    // console.log('Updating Account');
     this.updateData = Object.assign(this.updateData, this.personalDataForm.value, this.locationForm.value, this.coffeePreferencesForm.value);
     this.fixField();
-    console.log(this.updateData);
+    // console.log(this.updateData);
+    this.showLoader();
+    this.yourCoffeeService.userUpdate(this.user.id, this.updateData).subscribe(
+      (res) => {
+        if (res.status == 'success') {
+          this.refreshing = true;
+          this.loadUser();
+          this.presentToast(res.message, res.status);
+          this.errors = {};
+        } else {
+          this.loading.dismiss();
+          this.presentToast(res.message, res.status);
+        }
+      },
+      (err) => {
+        // console.log(err);
+        this.loading.dismiss();
+        this.errors = err.errors;
+
+        this.presentToast("La información proporcionada es inválida, por favor revisa nuevamente los campos.", "failed");
+        // this.presentToast(err.message, err.status);
+      }
+    );
   }
 
 }

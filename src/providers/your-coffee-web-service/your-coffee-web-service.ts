@@ -327,6 +327,21 @@ export class YourCoffeeWebServiceProvider {
     );
   }
 
+  userUpdate(user, data) {
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this._userToken,
+    });
+
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(this.yourCoffeeUrl + "/user/" + user, data, options)
+      // .do((res : Response ) => console.log(res.json()))
+      .map((res : Response ) => res.json())//.catch(this.handleError);;
+      .catch(this.handleError);
+  }
+
   country() {
     let headers = new Headers({'Accept': 'application/json'});
     let options = new RequestOptions({ headers: headers });
