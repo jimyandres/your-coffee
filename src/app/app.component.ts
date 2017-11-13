@@ -108,6 +108,7 @@ export class MyApp {
 
         this.events.subscribe('auth:logout', (data) => {
             this.user = data;
+            this.nav.setRoot(HomePage);
         });
 
         this.events.subscribe('auth:update', (data) => {
