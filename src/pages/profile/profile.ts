@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { Refresher } from 'ionic-angular';
+import { Refresher, AlertController } from 'ionic-angular';
 import { LoadingController, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -46,7 +46,8 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private yourCoffeeService: YourCoffeeWebServiceProvider,
               public loadingCtrl: LoadingController, public formBuilder: FormBuilder,
-              public storage: Storage, private events: Events, public toastCtrl: ToastController) {
+              public storage: Storage, private events: Events, public toastCtrl: ToastController,
+            public alertCtrl: AlertController) {
     this.showLoader();
     // this.loadUser();
 
@@ -130,6 +131,27 @@ export class ProfilePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
     this.country();
+  }
+
+  showConfirm() {
+    let confirm = this.alertCtrl.create({
+      title: 'Confirmar acción',
+      message: '¿Estas seguro de eliminar tu cuenta?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'cancel-button',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.deleteAccount()
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   doRefresh(refresher: Refresher) {
@@ -282,7 +304,34 @@ export class ProfilePage {
   }
 
   deleteAccount() {
-    console.log('Deleting Account');
+    this.showLoader();
+    this.yourCoffeeService.delete(this.user.id).subscribe(
+      (res) => {
+        if (res.status == 'success') {
+          this.presentToast(res.message, res.status);
+          this.yourCoffeeService.logout(false).then((res: any) => {
+              this.loading.dismiss();
+              if(res.status == 'success') {
+                  // console.log(res.message);
+                  this.events.publish('auth:logout', {'data': null});
+              }
+          },
+          (err) => {
+              this.loading.dismiss();
+              console.log(err);
+          });
+        } else {
+          this.loading.dismiss();
+          this.presentToast(res.message, res.status);
+        }
+      },
+      (err) => {
+        console.log(err);
+        this.loading.dismiss();
+        this.presentToast("Ha ocurrido un error procesando tu solicitud. Intentalo nuevamente.", "failed");
+        // this.presentToast(err.message, err.status);
+      }
+    );
   }
 
   fixField() {

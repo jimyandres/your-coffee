@@ -294,10 +294,17 @@ export class YourCoffeeWebServiceProvider {
       .catch(this.handleError);
   }
 
+  removeCredentials() {
+    this._userToken = null;
+    this.storage.remove('user-token');
+    this.storage.remove('user-detail');
+    this._user = null;
+  }
+
   /**
    * Log the user out, which forgets the session
    */
-  logout() {
+  logout(do_call:boolean = true) {
 
     let headers = new Headers({
       'Accept': 'application/json',
@@ -308,21 +315,26 @@ export class YourCoffeeWebServiceProvider {
     let options = new RequestOptions({ headers: headers });
 
     return new Promise ((resolve, reject) => {
-      this.http.get(this.yourCoffeeUrl + '/logout', options)
-        .map((res : Response ) => res.json())
-        .catch(this.handleError)
-        .subscribe(res => {
-          this._userToken = null;
-          this.storage.remove('user-token');
-          this.storage.remove('user-detail');
-          this._user = null;
-
-          resolve(res);
-        },
-        (err) => {
-          reject(err);
+        if(do_call) {
+          this.http.get(this.yourCoffeeUrl + '/logout', options)
+            .map((res : Response ) => res.json())
+            .catch(this.handleError)
+            .subscribe(res => {
+              this.removeCredentials();
+              resolve(res);
+            },
+            (err) => {
+              this._userToken = null;
+              this.storage.remove('user-token');
+              this.storage.remove('user-detail');
+              this._user = null;
+              reject(err);
+            }
+          );
+        } else {
+          this.removeCredentials();
+          resolve({'status': 'success', 'message': 'User logged out'});
         }
-      );
       }
     );
   }
@@ -340,6 +352,20 @@ export class YourCoffeeWebServiceProvider {
       // .do((res : Response ) => console.log(res.json()))
       .map((res : Response ) => res.json())//.catch(this.handleError);;
       .catch(this.handleError);
+  }
+
+  delete(user_id) {
+    let headers = new Headers({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this._userToken,
+    });
+
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.delete(`${this.yourCoffeeUrl}/user/${user_id}`, options)
+    .map((res: Response) => res.json())
+    .catch(this.handleError);
   }
 
   country() {
