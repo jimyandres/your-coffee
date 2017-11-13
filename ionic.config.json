@@ -8,7 +8,7 @@
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://yourcoffee.us-west-2.elasticbeanstalk.com/api"
+      "proxyUrl": "http://www.terraquimbaya.com/api"
     }
   ]
 }

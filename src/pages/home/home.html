@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Your Coffee</ion-title>
+    <ion-title>Terra Quimbaya</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="searchPage()">
         <ion-icon name="search"></ion-icon>
@@ -22,7 +22,7 @@
 
   <ion-card class="card-backgruound" no-padding>
     <img src="assets/img/sidebar-1.jpg"/>
-    <div class="card-title">Your Coffee</div>
+    <div class="card-title">Terra Quimbaya</div>
     <div class="card-subtitle">Bienvenido</div>
   </ion-card>
 
@@ -47,7 +47,7 @@
     <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll> -->
-    
+
     <ion-row justify-content-between wrap>
 
       <ion-col class="col-product" col-6 *ngFor="let product of products" (click)="itemTapped($event, product)">
@@ -67,7 +67,7 @@
     <ion-infinite-scroll *ngIf="hasMore" (ionInfinite)="doInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    
+
   </ion-grid>
 
 </ion-content>
